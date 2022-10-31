@@ -1,0 +1,41 @@
+.App{
+    max-width: 1220px;
+    padding: 0 20px;
+    width: 100%;
+    margin: 0 auto;
+    transition: all .7s;
+    position: relative;
+    // left: -80vw;
+    // margin-left: 80vw;
+}
+
+
+html, body{
+    // overflow-x: hidden;
+}
+
+*{
+    font-family: 'Inter' !important;
+}
+
+
+
+.fixed{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #222;
+    border-bottom: none;
+    box-shadow: 0px 1px 20px rgba(255, 255, 255, .1);
+    z-index: 10;
+    
+
+    @media(max-width: 1000px){
+        padding: 10px;
+        padding-bottom: 10px !important;
+        height: 60px;
+    }
+}

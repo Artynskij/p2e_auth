@@ -1,0 +1,219 @@
+.balance{
+    display: flex;
+    background: #121212;
+    border: 1px solid #444;
+    border-radius: 10px;
+    max-width: 780px;
+    margin: 20px auto 60px;
+    align-items: stretch;
+
+    &Value{
+        width: 100%;
+        border-right: 1px solid #444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 40px;
+        line-height: 52px;
+    }
+
+    &Btns{
+        width: 100%;
+        padding: 25px;
+    }
+
+    &Btn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 50px;
+        max-width: 250px;
+        margin: 0 auto;
+        background: var(--active);
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+        width: 100%;
+
+        &Blue{
+            margin-top: 10px;
+            background: #0262F2;
+        }
+
+        svg{
+            margin-left: 10px;
+        }
+    }
+}
+
+.info{
+    margin-bottom: 60px;
+    color: #fff;
+
+    &Btn{
+        margin: 30px auto 0px;
+        border: none;
+        outline: none;
+        display: block;
+        background: var(--active);
+        border-radius: 10px;
+        font-size: 16px;
+        line-height: 40px;
+        text-align: center;
+        width: 250px;
+        color: #fff;
+    }
+
+    &Row{
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 60px;
+
+        & > div{
+            max-width: 200px;
+            width: 100%;
+            position: relative;
+        }
+
+        &Subtitle{
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        &Date{
+            display: flex;
+            gap: 20px;
+
+            span{
+                font-size: 14px;
+                color: #919191;
+                text-decoration: underline;
+            }
+        }
+
+        &Select{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #fff;
+            cursor: pointer;
+        }
+
+        &List{
+            position: absolute;
+
+            top: calc(100% + 10px);
+            width: 100%;
+
+            list-style: none;
+
+            li{
+                padding: 10px 10px;
+                width: 100%;
+                cursor: pointer;
+                background: #322F2F;
+                font-size: 12px;
+                transition: color .3s;
+
+                &:first-child{
+                    border-radius: 5px 5px 0px 0px;
+                }
+        
+                &:last-child{
+                    border-radius: 0px 0px 5px 5px;
+                }
+
+                &:hover{
+                    color: var(--active);
+                }
+            }
+        }
+    }
+}
+
+.history{
+    &Title{
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 32px;
+        text-align: center;
+        color: #fff;
+    }
+}
+
+.table{
+    &Header, &Row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 20px;
+        border-radius: 10px 10px 0px 0px;
+        background: #413E3E;
+
+        span{
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            font-size: 17px;
+        }
+    }
+
+    &Row{
+        background: #121212;
+        border-radius: 0px;
+        border-bottom: 1px solid #444;
+
+        &:last-child{
+            border-bottom:  none;
+            border-radius: 0px 0px 10px 10px;
+            margin-bottom: 80px;
+        }
+    }
+}
+
+@media(max-width: 800px){
+    .balance{
+        margin-bottom: 30px;
+        flex-direction: column;
+        padding: 20px;
+
+        &Value{
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        &Btns{
+            padding: 0;
+        }
+
+        &Btn{
+            max-width: none;
+        }
+    }
+
+    .infoRow{
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .table{
+        overflow-x: scroll;
+        margin-bottom: 20px;
+
+        & > div{
+            min-width: 800px;
+            margin-bottom: 0 !important;
+        }
+    }
+}

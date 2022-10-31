@@ -1,0 +1,32 @@
+.container{
+    position: relative;
+    width: 100%;
+}
+
+.input{
+    outline: none;
+    background: #1B1B1B;
+    border: none;
+    border-radius: 10px;
+    padding: 5.5px 35px 5.5px 20px;
+    width: 100%;
+    font-size: 17px;
+    line-height: 21px;
+    color: #fff;
+    font-family: 'Inter';
+    &::placeholder {
+        color: white;
+    }
+}
+
+.icon{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+    transform: translateY(-50%) rotateZ(45deg);
+    background-color: transparent;
+    border: none;
+    color: white;
+}

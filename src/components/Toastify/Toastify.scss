@@ -1,0 +1,15 @@
+.toast {
+    &.toast_success {
+        .Toastify__progress-bar-theme--dark {
+            background-color: var(--active);
+        }
+    }
+    &.toast_error {
+        .Toastify__progress-bar-theme--dark {
+            background-color: red;
+        }
+    }
+    .Toastify__toast {
+        background-color: #1b1b1b;
+    }
+}

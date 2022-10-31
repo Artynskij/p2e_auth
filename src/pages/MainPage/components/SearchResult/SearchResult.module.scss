@@ -1,0 +1,74 @@
+.title{
+    margin-bottom: 30px;
+    font-family: 'Chakra Petch';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #fff;
+}
+
+.result{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    .notFound {
+        color: white;
+    }
+}
+
+.item{
+    text-decoration: none;
+    background: #1B1B1B;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px 5px 20px 20px;
+    filter: drop-shadow(4px 4px 4px rgba(60, 60, 62, 0.46));
+    color: #fff;
+
+    &Img{
+        display: block;
+        margin-right: 20px;
+    }
+
+    &Name{
+        font-family: 'Chakra Petch';
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 5px;
+
+        &:hover{
+            color: var(--active);
+            opacity: 1 !important; 
+        }
+    }
+
+    &Tags{
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 20px;
+
+        a{
+            font-weight: 400;
+        font-size: 13px;
+        line-height: 20px;  
+            &:hover{
+                color: var(--active);
+                opacity: 1 !important; 
+            }
+        }
+    }
+}
+
+@media(max-width: 1000px) {
+    .result{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width: 600px){
+    .result{
+        grid-template-columns: 1fr;
+    }
+}

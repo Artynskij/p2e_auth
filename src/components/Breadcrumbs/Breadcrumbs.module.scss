@@ -1,0 +1,19 @@
+.breadcrumbs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    color: white;
+    * {
+        font-size: 12px;
+    }
+    .item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        svg {
+            height: 10px;
+        }
+    }
+}

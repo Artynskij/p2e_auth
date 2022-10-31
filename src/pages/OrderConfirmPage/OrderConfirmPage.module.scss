@@ -1,0 +1,177 @@
+.container{
+    flex-grow: 1;
+    padding: 20px 0;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: flex-start;
+    gap: 60px;
+
+    & > div{
+        width: 100%;
+    }
+}
+
+.back{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 16px;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: #fff;
+
+    svg{
+        margin-right: 10px;
+    }
+}
+
+.title{
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    margin-bottom: 60px;
+}
+
+.row{
+    display: flex;
+    gap: 20px;
+
+    .content{
+        width: 100%;
+    }
+}
+
+.table{
+    margin-bottom: 25px;
+    width: 100%;
+
+    &Header, &Row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #413E3E;
+        border-radius: 10px 10px 0px 0px;
+        padding: 10px 20px;
+
+        span{
+            font-size: 14px;
+            line-height: 16px;
+            width: 100%;
+            color: #fff;
+        }
+    }
+
+    &Row{
+        background: #121212;
+        border-radius: 0px 0px 10px 10px;
+    }
+
+}
+
+.card{
+    width: 280px;
+    padding: 10px 20px 20px;
+    background: #1B1B1B;
+    border-radius: 10px;
+
+    &Title{
+        font-size: 17px;
+        line-height: 22px;
+        margin-bottom: 10px;
+        color: #A6A6A6;
+
+        font-weight: 300;
+    }
+
+    &Subtitle{
+        font-size: 17px;
+        line-height: 22px;
+        margin-bottom: 20px;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    &Btn{
+        outline: none;
+        border: none; 
+        background: var(--active);
+        border-radius: 10px;
+        display: block;
+        color: #fff;
+        line-height: 40px;
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    &Text{
+        font-size: 12px;
+        line-height: 14px;
+        color: #A6A6A6;
+    }
+}
+
+.label{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #A6A6A6;
+    font-size: 17px;
+    display: block;
+}
+
+.input{
+    border: none;
+    outline: none;
+    background: #1B1B1B;
+    border-radius: 10px;
+    padding: 7px 12px;
+    color: #A6A6A6;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+}
+
+@media(max-width: 1000px){
+    .container{
+        flex-wrap: wrap;
+    }
+}
+
+@media(max-width: 800px){
+    .container{
+        flex-direction: column;
+        flex-grow: none;
+        align-items: flex-start;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .title{
+        margin-bottom: 30px;
+    }
+
+    .row{
+        flex-direction: column;
+    }
+
+    .card{
+        max-width: none;
+        width: 100%;
+    }
+
+    .input{
+        width: 100%;
+        max-width: none;
+    }
+
+    .table{
+        overflow-x: scroll;
+        & > div{
+            min-width: 600px;
+        }
+        
+    }
+}
