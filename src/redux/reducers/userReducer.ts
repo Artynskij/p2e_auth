@@ -7,9 +7,6 @@ export type DataUserType = {
 
 
 const initialState = {
-    
-    // dataUser:{}
-      
     email: '',
     username:''
 }
