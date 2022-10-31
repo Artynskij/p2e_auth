@@ -7,7 +7,7 @@ export default function useToken() {
     if (tokenString) {
       const userToken = JSON.parse(tokenString);
 
-      return userToken?.token
+      return userToken
     }
   };
 
@@ -15,7 +15,7 @@ export default function useToken() {
 
   const saveToken = (userToken: any) => {
     localStorage.setItem('token', JSON.stringify(userToken));
-    setToken(userToken.token);
+    setToken(userToken);
   };
 
   return {

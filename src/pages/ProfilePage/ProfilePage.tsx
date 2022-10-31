@@ -1,7 +1,11 @@
 import styles from './ProfilePage.module.scss'
 import { mockUser } from '../../utils/mockData';
+import { useSelector } from 'react-redux';
+import { selectDataUser } from '../../redux/selectors';
 
 export default function ProfilePage(){
+    const dataUser = useSelector(selectDataUser)
+ 
     return(
         <div className={styles.container}>
             <div className={styles.title}>Профиль</div>
@@ -22,8 +26,8 @@ export default function ProfilePage(){
                     </div>
                     <div className={styles.contentRight}>
                         <span>{mockUser.role}</span>
-                        <span>{mockUser.name}</span>
-                        <span>{mockUser.mail}</span>
+                        <span>{dataUser.username}</span>
+                        <span>{dataUser.email}</span>
                         <span>{mockUser.balance} p</span>
                     </div>
                 </div>

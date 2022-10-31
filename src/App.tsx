@@ -30,6 +30,7 @@ function App() {
 
     const { token, setToken } = useToken();
 
+
     // TODO (A.A.):Clarify auth condition
     const checkAuth = useCallback(() => !!token, [token]);
 

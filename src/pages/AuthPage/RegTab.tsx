@@ -7,6 +7,7 @@ import { Toastify } from './../../components/Toastify/Toastify';
 import { toast } from 'react-toastify';
 import { ApiService } from '../../api/ApiService';
 import { UserRegistrationCredentials } from '../../models/userRegistrationCredentials';
+import { Redirect } from 'react-router-dom'
 
 export default function RegTab() {
     const [toastifyStatus, setToastifyStatus] = useState<'success' | 'error'>('success')
@@ -17,6 +18,7 @@ export default function RegTab() {
     const [pass, setPass] = useState('')
     const [err, setErr] = useState('')
     const [TOUR, setTOUR] = useState<'true' | 'false'>('false') //terms of the user afteement
+    const [registered, setRegistered ] = useState(false)
     const ref = useRef<HTMLFormElement>(null)
 
     const [captchaVerify, setCaptchaVerify] = useState(false)
@@ -29,6 +31,7 @@ export default function RegTab() {
     const userRegistration = async (fullUserRegistrationCredentials: UserRegistrationCredentials) => {
         const apiService = new ApiService();
         await apiService.userRegistration(fullUserRegistrationCredentials);
+        setRegistered(true)
     }
 
     const handleSubmit = useCallback((event: FormEvent) => {
@@ -44,11 +47,11 @@ export default function RegTab() {
             mResp.status &&
             pass === passT && TOURResp.status && captchaVerify
         ) {
-            setErr('')
-            setName('')
-            setMail('')
-            setPassT('')
-            setPass('')
+            // setErr('')
+            // setName('')
+            // setMail('')
+            // setPassT('')
+            // setPass('')
             setTOUR('false')
             setCaptchaVerify(false)
             captchaRef.current?.reset && captchaRef.current?.reset()
@@ -78,7 +81,7 @@ export default function RegTab() {
             toast('Неправильная почта или пароль')
         }
     }, [name, checkSubmit, mail, passT, pass, TOUR, captchaVerify])
-
+if(registered) return <Redirect to={"/login"}/>
     return (
 
         <form className={styles.body} onSubmit={handleSubmit} ref={ref}>

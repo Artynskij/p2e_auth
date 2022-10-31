@@ -9,6 +9,9 @@ import { Toastify } from '../../components/Toastify/Toastify';
 
 import { ApiService } from "../../api/ApiService";
 import { UserLogInCredentials } from "../../models/userLogInCredentials";
+import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addDataUser } from '../../redux/reducers/userReducer';
 
 export type SignTabProps = {
   setToken: (usertoken: any) => void;
@@ -21,6 +24,7 @@ export default function SignTab({ setToken }: SignTabProps) {
   const [pass, setPass] = useState('')
   const [err, setErr] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [entered, setEntered] = useState(false)
   const ref = useRef<HTMLFormElement>(null)
 
   const [captchaVerify, setCaptchaVerify] = useState(false)
@@ -29,13 +33,19 @@ export default function SignTab({ setToken }: SignTabProps) {
     if (token === null) setCaptchaVerify(false);
     setCaptchaVerify(true)
   }, []);
+  const dispatch = useDispatch()
 
   const userLogin = async (userCredentials: UserLogInCredentials) => {
     const apiService = new ApiService()
-    const userToken = await apiService.userLogin(userCredentials)
+    const allDataUser:{email:string, username:string, token:string} = await apiService.userLogin(userCredentials)
+    const {email,username,token} = allDataUser
 
-    if (userToken) {
-      setToken(userToken)
+    const dataUser={email:email, username:username}
+
+    if (token) {
+      dispatch(addDataUser(dataUser))
+      setToken(token)
+      setEntered(true)
     }
   };
 
@@ -69,6 +79,9 @@ export default function SignTab({ setToken }: SignTabProps) {
       toast('Неправильная почта или пароль')
     }
   }, [checkSubmit, email, pass, rememberMe, captchaVerify])
+
+if(entered) return <Redirect to={'/'}/>
+
   return (
     <form className={styles.body} onSubmit={handleSubmit} ref={ref}>
       {err !== '' && <div className={styles.err}>{err}</div>}
