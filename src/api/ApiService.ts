@@ -1,4 +1,5 @@
 import axios from "axios";
+import { error } from "console";
 
 import { Feedback } from "../models/feedback";
 import { UserLogInCredentials } from "../models/userLogInCredentials";
@@ -13,17 +14,28 @@ export class ApiService {
 
         return dataUser
       })
+      .catch(error=>  {
+        return error
+      })
   }
 
   async userRegistration(userRegistrationCredentials: UserRegistrationCredentials) {
-    axios.post(`${process.env.REACT_APP_BASE_URL}api/register/`, userRegistrationCredentials)
+    return axios.post(`${process.env.REACT_APP_BASE_URL}api/register/`, userRegistrationCredentials)
       .then(res => {
-        console.log(res.data);
-        const actionMessage = res.status===201
-          ? "Регистрация прошла успешно"
-          : "Во время регистрации произошла ошибка";
-
-        alert(actionMessage);
+        return res
+      })
+      .catch(err => { 
+        if (err.response) { 
+          console.log("err.response");
+          const error = err
+          return error
+        } else if (err.request) { 
+          console.log("err.request");
+          console.log(err);
+        } else { 
+          console.log(err);
+          
+        } 
       })
       
   }

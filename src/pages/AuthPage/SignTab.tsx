@@ -39,13 +39,16 @@ export default function SignTab({ setToken }: SignTabProps) {
     const apiService = new ApiService()
     const allDataUser:{email:string, username:string, token:string} = await apiService.userLogin(userCredentials)
     const {email,username,token} = allDataUser
-
+     
     const dataUser={email:email, username:username}
-
+    
     if (token) {
       dispatch(addDataUser(dataUser))
       setToken(token)
       setEntered(true)
+    } else{
+      setToastifyStatus('error')
+      toast('Такого пользователя не существует')
     }
   };
 
@@ -60,16 +63,15 @@ export default function SignTab({ setToken }: SignTabProps) {
       setPass('')
       setRememberMe(false)
       setCaptchaVerify(false)
-      setToastifyStatus('success')
       captchaRef.current?.reset && captchaRef.current?.reset()
-      toast('Успех')
-
+    
       const userLoginCredentials: UserLogInCredentials = {
         email: email,
         password: pass,
       };
 
       userLogin(userLoginCredentials);
+     
     } else {
       setErr((!mResp.status && mResp.text) ||
         (!PLResp.status && PLResp.text) ||
@@ -80,7 +82,7 @@ export default function SignTab({ setToken }: SignTabProps) {
     }
   }, [checkSubmit, email, pass, rememberMe, captchaVerify])
 
-if(entered) return <Redirect to={'/'}/>
+if(entered) return <Redirect to={'/'} /> 
 
   return (
     <form className={styles.body} onSubmit={handleSubmit} ref={ref}>

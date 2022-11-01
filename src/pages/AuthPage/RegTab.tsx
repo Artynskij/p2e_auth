@@ -30,8 +30,16 @@ export default function RegTab() {
 
     const userRegistration = async (fullUserRegistrationCredentials: UserRegistrationCredentials) => {
         const apiService = new ApiService();
-        await apiService.userRegistration(fullUserRegistrationCredentials);
-        setRegistered(true)
+        const response =await apiService.userRegistration(fullUserRegistrationCredentials);
+        console.log(response);
+        
+        
+        if(response.status===201) {
+           setRegistered(true)
+        } else {
+            setToastifyStatus('error')
+            toast('Пользователь с таким именем или почтой уже существует')
+        }
     }
 
     const handleSubmit = useCallback((event: FormEvent) => {
@@ -47,16 +55,16 @@ export default function RegTab() {
             mResp.status &&
             pass === passT && TOURResp.status && captchaVerify
         ) {
-            // setErr('')
-            // setName('')
-            // setMail('')
-            // setPassT('')
-            // setPass('')
+            setErr('')
+            setName('')
+            setMail('')
+            setPassT('')
+            setPass('')
             setTOUR('false')
             setCaptchaVerify(false)
             captchaRef.current?.reset && captchaRef.current?.reset()
-            setToastifyStatus('success')
-            toast('Успех')
+            // setToastifyStatus('success')
+            // toast('Успех')
 
             const fullUserRegistrationCredentials: UserRegistrationCredentials = {
                 username: name,
