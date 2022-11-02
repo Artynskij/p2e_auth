@@ -3,7 +3,7 @@ import styles from './Footer.module.scss'
 import tgB from '../../assets/icon-tg-bl.svg'
 import tgG from '../../assets/icon-tg-gr.svg'
 import tg from '../../assets/icon-tg.svg'
-import { MAIN_URL } from '../../utils/links'
+import { COOKIEPOLICY_URL, MAIN_URL, PRIVACYPOLICY_URL } from '../../utils/links'
 import vk from '../../assets/vk.svg';
 import vkG from '../../assets/vk-gr.svg';
 import vkB from '../../assets/vk-bl.svg';
@@ -21,10 +21,10 @@ export default function Footer(){
     return(
         <footer className={styles.container}>
             <div className={styles.groupLink}>
-                <Link to={{pathname: MAIN_URL}}>
+                <Link to={{pathname: PRIVACYPOLICY_URL}}>
                     Политика конфиденциальности
                 </Link>
-                <Link to={{pathname: MAIN_URL}}>
+                <Link to={{pathname: COOKIEPOLICY_URL}}>
                     Политика cookie 
                 </Link>
                 <Link to={{pathname: MAIN_URL}}>
