@@ -1,0 +1,48 @@
+.modal {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal__ctn_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+    background: #222;
+    height: 70%;
+    width: 50%;
+    transform: scale(0.5);
+    transition: 0.4s all;
+}
+.modal__ctn_content.active {
+    transform: scale(1);
+}
+.icon{
+    position: absolute;
+    top: 5%;
+    right: 15px;
+    cursor: pointer;
+    font-size: 30px;
+    transform: translateY(-50%) rotateZ(45deg);
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+

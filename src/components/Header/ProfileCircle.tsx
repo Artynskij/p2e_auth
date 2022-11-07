@@ -14,6 +14,7 @@ export default function ProfileCircle({ hide, setToken }: ProfileCircleProps) {
   
   const logOut = () => {
     setToken('');
+    localStorage.setItem('userData', JSON.stringify(''))
     hide(false);
   };
   return (

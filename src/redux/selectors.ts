@@ -9,4 +9,6 @@ export const selectBreadcrumbItems = createDraftSafeSelector(selectSelf, state =
 //search reducer
 export const selectSearchItems = createDraftSafeSelector(selectSelf, state => state.search.items);
 export const selectSearchValue = createDraftSafeSelector(selectSelf, state => state.search.value);
+
+//user reducer
 export const selectDataUser = createDraftSafeSelector(selectSelf, state => state.user);

@@ -1,22 +1,82 @@
 .container{
+    display: flex;
+    justify-content: space-around;
     flex-grow: 1;
     padding: 20px 0px;
 }
+.container_left{
+    height: auto;
+}
+.container_right{
+    height: 100%;
+    width: 30%;
 
-.title{
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 32px;
+    form{
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        // background-color: #FFF;
+    }
+    input{
+        width: 100%;
+        border: none;
+        outline: none;
+        height: 38px;
+        padding: 8px 12px;
+        // margin: 10px 0;
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        border-radius: 4px;
+        font-weight: 400;
+        color: #919191;
+        font-family: 'Source Sans Pro';
+        background: transparent;
+        border: 1px solid #fff;
+    
+    }
+   
+   
+
+  
+    .title{
+        font-weight: 600;
+        font-size: 25px;
+        line-height: 32px;
+        color: #fff;
+        margin-bottom: 30px;
+        font-family: 'Source Sans Pro';
+    }
+}
+
+
+
+.button {
+    outline: none;
+    background: #272727;
+    border: 1px solid #272727;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    padding: 7px 15px;
+    font-weight: 400;
+    font-size: 14px;
     color: #fff;
-    margin-bottom: 30px;
-    font-family: 'Source Sans Pro';
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    &:hover{
+        opacity: 1 !important;
+        background: var(--active);
+    }
 }
 
 .body{
     max-width: 500px;
     background: #1B1B1B;
     border: 1px solid #6B6868;
-    margin-bottom: 60px;
+    // margin-bottom: 60px;
     border-radius: 10px;
 
     &Top{
@@ -33,6 +93,7 @@
         display: flex;
         align-items: stretch;
         padding: 20px;
+        // height: 60vh;
         
 
         &Left{
@@ -69,6 +130,11 @@
         }
 
         &Right{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
             width: 100%;
             span{
                 margin: 0 20px 10px;
