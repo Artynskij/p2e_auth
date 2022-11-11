@@ -9,6 +9,7 @@ import { GAMES_URL } from './../../../../utils/links';
 
 export type TableProps = {
     game: string;
+    subCat:any
     items: typeof kinahMock | typeof accountsMock | typeof itemsMock | typeof servicesMock
     className?: string
     customCategory?: {
@@ -30,6 +31,8 @@ export default function Table(props: TableProps) {
     
     const [maxLvl, setMaxLvl] = useState('')
     const [minLvl, setMinLvl] = useState('')
+    // const [categorTrue, setMinLvl] = useState('')
+
     const handleLvlBlur = (type: 'max' | 'min') => {
         if (type === 'max') {
             //@ts-ignore
@@ -75,6 +78,14 @@ export default function Table(props: TableProps) {
         //@ts-ignore
         return props.items.filter((value, index, self) => index === self.findIndex((t) => t[filterKey] === value[filterKey])).map(f => f[filterKey])
     }
+    
+    
+    console.log(props.subCat);
+    
+    // const getChoiceServer = (filterKey: TableItemKeys) => {
+    //     //@ts-ignore
+    //     return props.subCat.choices.filter((value, index, self) => index === self.findIndex((t) => t[filterKey] === value[filterKey])).map(f => f[filterKey])
+    // }
     return (
         <div className={`${styles.table} ${props.className ? props.className : ''}`}>
             <div className={styles.extraFilter}>
@@ -90,12 +101,17 @@ export default function Table(props: TableProps) {
                 )}
             </div>
             <div className={styles.header}>
+                {props.subCat?.forEach((element:any, i:any) => {
+                    console.log(element);
+                    
+                    <TableItemName className={styles.headerServer} enName={`enName${i}`} name={element.title} items={element.choices} filters={filters} setNewFilter={setFilters} />
+                })}
                 <TableItemName className={styles.headerServer} enName='server' name='Сервер' items={getUniqeItems('server')} filters={filters} setNewFilter={setFilters} />
-                <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} />
+                {/* <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} />
                 <div className={styles.desc}>Описание</div>
                 <TableItemName className={styles.nik} enName='online' name='Ник' items={['Онлайн', 'Оффлайн']} filters={filters} setNewFilter={setFilters} />
                 <div className={styles.count}>Наличные</div>
-                <div>Цена</div>
+                <div>Цена</div> */}
             </div>
             <div className={styles.list}>
                 {

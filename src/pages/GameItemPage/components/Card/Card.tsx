@@ -1,16 +1,29 @@
 import { NavLink, Redirect, useLocation } from "react-router-dom";
-import React, { useState, useRef, useCallback, FormEvent } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  FormEvent,
+  useEffect,
+} from "react";
 import { GAMES_URL } from "../../../../utils/links";
 import { games } from "../../../../utils/mockData";
 import styles from "./Card.module.scss";
 import { Modal } from "../../../../components/Modal/Modal";
-import { useSelector } from "react-redux";
-import { selectDataUser } from "../../../../redux/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { selectDataUser, selectGames } from "../../../../redux/selectors";
 import { ApiService } from "../../../../api/ApiService";
+import { getGames } from "../../../../redux/reducers/gamesReducer";
 
-export type CardProps = typeof games[0];
+// export type CardProps = typeof games[0];
+export type CardProps = {
+  id: number;
+  title: string;
+  description: string;
+  image_of_game: string;
+};
 
-export default function Card({ imgBig, name, description, tags }: CardProps) {
+export default function Card({ image_of_game, title, description }: CardProps) {
   const ref = useRef<HTMLFormElement>(null);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -18,24 +31,26 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
   const [auth, setAuth] = useState(false);
   const dataUser = useSelector(selectDataUser);
 
-  const sendSellerExist = async (dataSeller:any) => {
-    const apiService = new ApiService()
-    await apiService.sellerExist(dataSeller)
-  }
-  useCallback(() => {}, []);
+  
+  
+
+  const sendSellerExist = async (dataSeller: any) => {
+    const apiService = new ApiService();
+    await apiService.sellerExist(dataSeller);
+  };
+  // useCallback(() => {}, []);
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
-      
       const validNumber = phoneNumber.replace(/\D/g, "").replace(/^7/, "8");
       const dataSeller = {
-        username:dataUser.username,
-        phone_number:validNumber
-      }
-      sendSellerExist(dataSeller)
+        username: dataUser.username,
+        phone_number: validNumber,
+      };
+      sendSellerExist(dataSeller);
       console.log(validNumber);
     },
-    [phoneNumber,dataUser]
+    [phoneNumber, dataUser]
   );
   const { pathname } = useLocation();
 
@@ -78,9 +93,9 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
     );
   };
 
-  let sellItemName = pathname.includes("kinah")
+  let sellItemName = pathname.includes("Аккаунты")
     ? "валюту"
-    : pathname.includes("accounts")
+    : pathname.includes("Аккаунты")
     ? "аккаунт"
     : pathname.includes("items")
     ? "предметы"
@@ -91,15 +106,15 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
   if (auth) return <Redirect to={"/login"} />;
   return (
     <div className={styles.container}>
-      <img className={styles.img} src={imgBig} alt="avatar" />
+      <img className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${image_of_game}`} alt="avatar" />
       <div>
         <div className={styles.title}>
-          <span>{name}</span>
+          <span>{title}</span>
           <button onClick={openModal}>Продать {sellItemName}</button>
         </div>
         <div className={styles.text}>{description}</div>
         <div className={styles.itemContainer}>
-          {tags.en.split(",").map((item, index) => (
+          {/* {tags.en.split(",").map((item, index) => (
             <NavLink
               className={
                 pathname.includes(item.replace(/\s+/g, "").toLowerCase()) ||
@@ -113,7 +128,7 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
                 .toLowerCase()}`}>
               {tags.ru.split(",")[index]}
             </NavLink>
-          ))}
+          ))} */}
         </div>
       </div>
       <Modal

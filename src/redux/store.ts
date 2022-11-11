@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { breadcrumbsReducer } from './reducers/breadcrumbsReducer'
 import { feedBackReducer } from './reducers/feedbackReducer'
+import  {gamesReducer}  from './reducers/gamesReducer'
 import { searchReducer } from './reducers/searchReducer'
 import { userReducer } from './reducers/userReducer'
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     search: searchReducer,
     feedBack: feedBackReducer,
     user:userReducer,
+    games:gamesReducer
   },
 })
 

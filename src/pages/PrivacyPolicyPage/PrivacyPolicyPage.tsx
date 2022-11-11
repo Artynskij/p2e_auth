@@ -1,4 +1,6 @@
+import { ApiService } from "../../api/ApiService";
 import styles from "./PrivacyPolicyPage.module.scss"
+import { useEffect, useState } from "react"
 
 
 
@@ -71,6 +73,19 @@ const privacyContent = [
     ,"11.1. ApplicationP2E приветствует ваши вопросы и предложения, касающиеся исполнения или изменения настоящей Политики. Пожалуйста, воспользуйтесь нашей формой обратной связи, размещённой по адресу: https://support.ApplicationP2E.com/hc/ru/requests/new. Вы также можете воспользоваться этой формой (и адресом электронной почты a@ApplicationP2E.com) для направления запросов о реализации ваших прав или жалоб относительно некорректности вашей Персональной информации или незаконности её обработки."
     ,"11.2. Обратите внимание, что ApplicationP2E имеет отдельные принципы обработки запросов субъекта персональных данных. Текущая версия доступна по адресу: https://ApplicationP2E.com/dsar"
 ]
+const [privacy, setPrivacy] = useState("");
+const api = new ApiService();
+const funcFetCookie = async () => {
+  const data = await api.getPrivacyPolicy();
+  setPrivacy(data);
+};
+useEffect(() => {
+  funcFetCookie();
+}, []);
+console.log(privacy);
+
+
+
 
 return(
     <div className={styles.container}>
