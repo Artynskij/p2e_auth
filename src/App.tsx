@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   HashRouter as Router,
   Route,
@@ -53,15 +53,27 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage/CookiePolicyPage";
 import { useDispatch } from "react-redux";
 import { addDataUser } from "./redux/reducers/userReducer";
+import { ApiService } from "./api/ApiService";
+import { getGames } from "./redux/reducers/gamesReducer";
 
 function App() {
+  
   const NavigationContainer = () => {
+    const dispatch = useDispatch();
+    const funcGetGames = async () => {
+      const api = new ApiService();
+      const games = await api.getGames();
+      dispatch(getGames(games));
+    };
+    useEffect(() => {
+      funcGetGames();
+    }, []);
+    
     const location = useLocation();
-
     const { token, setToken } = useToken();
     //user to reducer
     const localStorageUser: any = localStorage.getItem("userData");
-    const dispatch = useDispatch();
+
     const dataUser = JSON.parse(localStorageUser);
 
     if (dataUser) {

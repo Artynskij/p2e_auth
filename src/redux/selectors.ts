@@ -12,3 +12,5 @@ export const selectSearchValue = createDraftSafeSelector(selectSelf, state => st
 
 //user reducer
 export const selectDataUser = createDraftSafeSelector(selectSelf, state => state.user);
+
+export const selectGames = createDraftSafeSelector(selectSelf, state => state.games.games);

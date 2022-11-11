@@ -1,57 +1,57 @@
-import styles from "./ProfilePage.module.scss";
 import { mockUser } from "../../utils/mockData";
+import styles from "./ProfilePage.module.scss";
 import { useSelector } from "react-redux";
-import { selectDataUser } from "../../redux/selectors";
 import { useRef, useEffect, useState, useCallback, FormEvent } from "react";
+import { selectDataUser } from "../../redux/selectors";
 
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { ApiService } from "../../api/ApiService";
 
 export default function ProfilePage() {
   const ref = useRef<HTMLFormElement>(null);
-
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectGame, setSelectGame] = useState(null);
-  const [allGames, setAllGames] = useState([]);
-  useEffect(() => {
-    getGames();
-  }, []);
-
   const dataUser = useSelector(selectDataUser);
+  
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  // const [selectGame, setSelectGame] = useState(null);
+  // const [allGames, setAllGames] = useState([]);
+  // useEffect(() => {
+  //   getGames();
+  // }, []);
 
-  const getGames = async () => {
-    const api = new ApiService();
-    const games = await api.getGames();
-    setAllGames(games);
-  };
 
-  const sendSellerExist = async (dataSeller: any) => {
-    const apiService = new ApiService();
-    await apiService.sellerExist(dataSeller);
-  };
+  // const getGames = async () => {
+  //   const api = new ApiService();
+  //   const games = await api.getGames();
+  //   setAllGames(games);
+  // };
 
-  const options = allGames.map((item: any) => {
-    const newArray = {
-      value: item.title,
-      label: item.title,
-      description: item.description,
-    };
-    return newArray;
-  });
+  // const sendSellerExist = async (dataSeller: any) => {
+  //   const apiService = new ApiService();
+  //   await apiService.sellerExist(dataSeller);
+  // };
 
-  const handleSubmit = useCallback(
-    (event: FormEvent) => {
-      event.preventDefault();
-      const validNumber = phoneNumber.replace(/\D/g, "").replace(/^7/, "8");
-      const dataSeller = {
-        username: dataUser.username,
-        phone_number: validNumber,
-      };
-      sendSellerExist(dataSeller);
-      console.log(selectGame);
-    },
-    [selectGame, phoneNumber, dataUser]
-  );
+  // const options = allGames.map((item: any) => {
+  //   const newArray = {
+  //     value: item.title,
+  //     label: item.title,
+  //     description: item.description,
+  //   };
+  //   return newArray;
+  // });
+
+  // const handleSubmit = useCallback(
+  //   (event: FormEvent) => {
+  //     event.preventDefault();
+  //     const validNumber = phoneNumber.replace(/\D/g, "").replace(/^7/, "8");
+  //     const dataSeller = {
+  //       username: dataUser.username,
+  //       phone_number: validNumber,
+  //     };
+  //     sendSellerExist(dataSeller);
+  //     console.log(selectGame);
+  //   },
+  //   [selectGame, phoneNumber, dataUser]
+  // );
 
   return (
     <div className={styles.container}>
@@ -80,7 +80,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-      <div className={styles.container_right}>
+      {/* <div className={styles.container_right}>
         <div className={styles.title}>Хотите стать продавцом ?</div>
 
         <form className={styles.formSeller} onSubmit={handleSubmit} ref={ref}>
@@ -96,7 +96,7 @@ export default function ProfilePage() {
 
           <button className={styles.button}>Отправить форму</button>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 }

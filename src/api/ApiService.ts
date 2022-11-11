@@ -52,7 +52,73 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getGames() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/games/`)
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/games`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getCategories(id:number) {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/categories/${id}`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getCookiePolicy() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/cookie_policy`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getPrivacyPolicy() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/privacy_policy`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+
+  async getMainImage() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/main_images_for_actual_games`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getSocialNetworks() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/social_networks`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getSponsorGames() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/sponsor_games`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getTitlesForCategories() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/titles_for_categories`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+
+  async getTypeOfGames() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/type_of_games`)
       .then((res) => {
         const data = res.data
         return data;

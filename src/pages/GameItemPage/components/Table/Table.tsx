@@ -9,6 +9,7 @@ import { GAMES_URL } from './../../../../utils/links';
 
 export type TableProps = {
     game: string;
+    subCat:any
     items: typeof kinahMock | typeof accountsMock | typeof itemsMock | typeof servicesMock
     className?: string
     customCategory?: {
@@ -22,14 +23,19 @@ export type TableItemKeys = keyof TableFiltersType
 
 export default function Table(props: TableProps) {
     const { pathname } = useLocation()
-    let category = pathname.includes('kinah') ? {name: 'Кинары', link: pathname} : pathname.includes('accounts') ? {name: 'Аккаунты', link: pathname} : pathname.includes('items') ? {name: 'Предметы', link: pathname} : pathname.includes('services') ? {name: 'Услуги', link: pathname} : null
+    let category = pathname.includes('all') ? {name: 'Кинары', link: pathname} : pathname.includes('accounts') ? {name: 'Аккаунты', link: pathname} : pathname.includes('items') ? {name: 'Предметы', link: pathname} : pathname.includes('services') ? {name: 'Услуги', link: pathname} : null
+    console.log(category);
+    
     // @ts-ignore
+
     useBreadcrumbs([{name: props.game, link: `${GAMES_URL}/${props.game}`}, category].filter(i => i !== null))
     const [filters, setFilters] = useState<TableFiltersType>({} as TableFiltersType)
     const [items, setItems] = useState(props.items)
     
     const [maxLvl, setMaxLvl] = useState('')
     const [minLvl, setMinLvl] = useState('')
+    // const [categorTrue, setMinLvl] = useState('')
+
     const handleLvlBlur = (type: 'max' | 'min') => {
         if (type === 'max') {
             //@ts-ignore
@@ -75,6 +81,14 @@ export default function Table(props: TableProps) {
         //@ts-ignore
         return props.items.filter((value, index, self) => index === self.findIndex((t) => t[filterKey] === value[filterKey])).map(f => f[filterKey])
     }
+    
+    
+    
+    
+    // const getChoiceServer = (filterKey: TableItemKeys) => {
+    //     //@ts-ignore
+    //     return props.subCat.choices.filter((value, index, self) => index === self.findIndex((t) => t[filterKey] === value[filterKey])).map(f => f[filterKey])
+    // }
     return (
         <div className={`${styles.table} ${props.className ? props.className : ''}`}>
             <div className={styles.extraFilter}>
@@ -90,12 +104,24 @@ export default function Table(props: TableProps) {
                 )}
             </div>
             <div className={styles.header}>
-                <TableItemName className={styles.headerServer} enName='server' name='Сервер' items={getUniqeItems('server')} filters={filters} setNewFilter={setFilters} />
-                <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} />
+            {props.subCat?.map((element: any, i: any) => {
+                        return (
+                            <TableItemName
+                                className={styles.headerServer}
+                                enName={`enName${i}`}
+                                name={element.title}
+                                items={element.choices}
+                                filters={filters}
+                                setNewFilter={setFilters}
+                            />
+                        );
+                    })}
+                {/* <TableItemName className={styles.headerServer} enName='server' name='Сервер' items={getUniqeItems('server')} filters={filters} setNewFilter={setFilters} /> */}
+                {/* <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} />
                 <div className={styles.desc}>Описание</div>
                 <TableItemName className={styles.nik} enName='online' name='Ник' items={['Онлайн', 'Оффлайн']} filters={filters} setNewFilter={setFilters} />
                 <div className={styles.count}>Наличные</div>
-                <div>Цена</div>
+                <div>Цена</div> */}
             </div>
             <div className={styles.list}>
                 {

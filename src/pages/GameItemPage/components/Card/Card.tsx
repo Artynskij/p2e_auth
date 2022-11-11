@@ -1,41 +1,68 @@
 import { NavLink, Redirect, useLocation } from "react-router-dom";
-import React, { useState, useRef, useCallback, FormEvent } from "react";
+import {
+  useState,
+  useRef,
+  useCallback,
+  FormEvent,
+  useEffect,
+} from "react";
 import { GAMES_URL } from "../../../../utils/links";
-import { games } from "../../../../utils/mockData";
 import styles from "./Card.module.scss";
 import { Modal } from "../../../../components/Modal/Modal";
 import { useSelector } from "react-redux";
 import { selectDataUser } from "../../../../redux/selectors";
 import { ApiService } from "../../../../api/ApiService";
 
-export type CardProps = typeof games[0];
+// export type CardProps = typeof games[0];
+export type CardProps = {
+  id: number;
+  title: string;
+  description: string;
+  image_of_game: string;
+};
 
-export default function Card({ imgBig, name, description, tags }: CardProps) {
+export default function Card({
+  image_of_game,
+  title,
+  description,
+  id,
+}: CardProps) {
   const ref = useRef<HTMLFormElement>(null);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [categories, setCategories] = useState({slug:"", title:""});
   const [auth, setAuth] = useState(false);
   const dataUser = useSelector(selectDataUser);
 
-  const sendSellerExist = async (dataSeller:any) => {
-    const apiService = new ApiService()
-    await apiService.sellerExist(dataSeller)
-  }
-  useCallback(() => {}, []);
+  const api = new ApiService();
+  const getCategories = async () => {
+    const data = await api.getCategories(id);
+    setCategories(data);
+    
+  };
+
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const sendSellerExist = async (dataSeller: any) => {
+    const apiService = new ApiService();
+    await apiService.sellerExist(dataSeller);
+  };
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
-      
       const validNumber = phoneNumber.replace(/\D/g, "").replace(/^7/, "8");
       const dataSeller = {
-        username:dataUser.username,
-        phone_number:validNumber
-      }
-      sendSellerExist(dataSeller)
+        username: dataUser.username,
+        phone_number: validNumber,
+      };
+      sendSellerExist(dataSeller);
       console.log(validNumber);
     },
-    [phoneNumber,dataUser]
+    [phoneNumber, dataUser]
   );
   const { pathname } = useLocation();
 
@@ -78,11 +105,11 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
     );
   };
 
-  let sellItemName = pathname.includes("kinah")
-    ? "валюту"
-    : pathname.includes("accounts")
+  let sellItemName = pathname.includes("Аккаунты")
+    ? "аккаунты"
+    : pathname.includes(categories.slug)
     ? "аккаунт"
-    : pathname.includes("items")
+    : pathname.includes("all")
     ? "предметы"
     : pathname.includes("services")
     ? "услуги"
@@ -91,15 +118,19 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
   if (auth) return <Redirect to={"/login"} />;
   return (
     <div className={styles.container}>
-      <img className={styles.img} src={imgBig} alt="avatar" />
+      <img
+        className={styles.img}
+        src={`https://alexeygrinch.pythonanywhere.com${image_of_game}`}
+        alt="avatar"
+      />
       <div>
         <div className={styles.title}>
-          <span>{name}</span>
+          <span>{title}</span>
           <button onClick={openModal}>Продать {sellItemName}</button>
         </div>
         <div className={styles.text}>{description}</div>
         <div className={styles.itemContainer}>
-          {tags.en.split(",").map((item, index) => (
+          {/* {tags.en.split(",").map((item, index) => (
             <NavLink
               className={
                 pathname.includes(item.replace(/\s+/g, "").toLowerCase()) ||
@@ -113,7 +144,29 @@ export default function Card({ imgBig, name, description, tags }: CardProps) {
                 .toLowerCase()}`}>
               {tags.ru.split(",")[index]}
             </NavLink>
-          ))}
+          ))} */}
+          <NavLink
+              className={
+                pathname.includes(categories.slug.replace(/\s+/g, "").toLowerCase()) ||
+                (pathname === `${GAMES_URL}/${title}` && id === 0)
+                  ? `${styles.item} ${styles.itemActive}`
+                  : styles.item
+              }
+              to={`${GAMES_URL}/${title}/${categories.slug
+                .replace(/\s+/g, "")
+                .toLowerCase()}`}>
+              {categories.title}
+            </NavLink>
+            <NavLink
+              className={
+                pathname.includes(categories.slug.replace(/\s+/g, "").toLowerCase()) ||
+                (pathname === `${GAMES_URL}/${title}` && id === 0)
+                  ? `${styles.item} ${styles.itemActive}`
+                  : styles.item
+              }
+              to={`${GAMES_URL}/${title}/all`}>
+              All
+            </NavLink>
         </div>
       </div>
       <Modal
