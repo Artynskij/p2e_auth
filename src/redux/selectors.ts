@@ -14,3 +14,6 @@ export const selectSearchValue = createDraftSafeSelector(selectSelf, state => st
 export const selectDataUser = createDraftSafeSelector(selectSelf, state => state.user);
 
 export const selectGames = createDraftSafeSelector(selectSelf, state => state.games.games);
+export const selectTestGames = createDraftSafeSelector(selectSelf, state => state.gamesTest.gamesTest);
+
+

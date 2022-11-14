@@ -104,7 +104,7 @@ export default function MainPage() {
     {mainImg.map((item) => {
       return <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${item.img}`} alt={item.title} />
     })}
-      
+      {/* <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${mainImg[0].img}`} alt={mainImg[0].title} /> */}
       <div className={styles.result} id="result">
         <Letters handleClick={letterClick} />
         <div className={styles.resultInner}>

@@ -51,25 +51,34 @@ import { UserPage } from "./pages/UserPage/UserPage";
 import useToken from "./hooks/useToken";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage/CookiePolicyPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addDataUser } from "./redux/reducers/userReducer";
 import { ApiService } from "./api/ApiService";
 import { getGames } from "./redux/reducers/gamesReducer";
+import { selectTestGames } from "./redux/selectors";
+import { getGamesTest } from "./redux/reducers/testGamesReducer";
+import { AppDispatch } from "./redux/store";
 
 function App() {
   
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const funcGetGames = async () => {
     const api = new ApiService();
     const games = await api.getGames();
     dispatch(getGames(games));
-    console.log("mainPage");
+    
+    
   };
   useEffect(() => {
+    dispatch(getGamesTest())
     
+    funcGetGames();
   }, []);
   const NavigationContainer = () => {
-    funcGetGames();
+    
+    
+    // const testGames = useSelector(selectTestGames)
+    
     
     
     const location = useLocation();

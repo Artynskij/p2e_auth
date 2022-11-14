@@ -9,7 +9,13 @@ import { GAMES_URL } from './../../../../utils/links';
 
 export type TableProps = {
     game: string;
-    subCat:any
+    categories: {
+        slug: string;
+        title: string;
+        id: number;
+        game: number;
+        title_column: {title:string, choices:[]}[];
+      }[];
     items: typeof kinahMock | typeof accountsMock | typeof itemsMock | typeof servicesMock
     className?: string
     customCategory?: {
@@ -24,7 +30,7 @@ export type TableItemKeys = keyof TableFiltersType
 export default function Table(props: TableProps) {
     const { pathname } = useLocation()
     let category = pathname.includes('all') ? {name: 'Кинары', link: pathname} : pathname.includes('accounts') ? {name: 'Аккаунты', link: pathname} : pathname.includes('items') ? {name: 'Предметы', link: pathname} : pathname.includes('services') ? {name: 'Услуги', link: pathname} : null
-    console.log(category);
+    console.log(props.categories);
     
     // @ts-ignore
 
@@ -104,7 +110,7 @@ export default function Table(props: TableProps) {
                 )}
             </div>
             <div className={styles.header}>
-            {props.subCat?.map((element: any, i: any) => {
+            {props.categories?.map((element: any, i: any) => {
                         return (
                             <TableItemName
                                 key={i}

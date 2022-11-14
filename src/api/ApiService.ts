@@ -10,7 +10,7 @@ export class ApiService {
 
   //auth
   async userLogin(userCredentials: UserLogInCredentials) {
-    return axios.post(`${process.env.REACT_APP_BASE_URL}api/login/`, userCredentials)
+    return axios.post(`https://alexeygrinch.pythonanywhere.com/api/login/`, userCredentials)
       .then(res => {
 
         const dataUser = res.data;
@@ -23,7 +23,7 @@ export class ApiService {
   }
 
   async userRegistration(userRegistrationCredentials: UserRegistrationCredentials) {
-    return axios.post(`${process.env.REACT_APP_BASE_URL}api/register/`, userRegistrationCredentials)
+    return axios.post(`https://alexeygrinch.pythonanywhere.com/api/register/`, userRegistrationCredentials)
       .then(res => {
         return res
       })
@@ -42,7 +42,7 @@ export class ApiService {
 
   }
   async sellerExist(sellerExistCredential: SellerExistCredential) {
-    axios.post(`${process.env.REACT_APP_BASE_URL}api/is_seller_for_exist/`, sellerExistCredential)
+    axios.post(`https://alexeygrinch.pythonanywhere.com/api/is_seller_for_exist/`, sellerExistCredential)
       .then(res => console.log(res))
       .catch(error => console.log(error))
 
@@ -50,20 +50,55 @@ export class ApiService {
 
   //feedback
   saveFeedback(feedBack: Feedback) {
-    axios.post(`${process.env.REACT_APP_BASE_URL}api/feedback/`, feedBack)
+    axios.post(`https://alexeygrinch.pythonanywhere.com/api/feedback/`, feedBack)
       .then((res) => alert("Отзыв принят"))
       .catch(error => console.log(error))
   }
 
   getFeedbacks() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/feedback/`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/feedback/`)
       .then((res) => { return res.data; })
       .catch(error => console.log(error))
   }
 
+   //social-networks
+   async getInstagramUrl() {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/instagram_social_networks`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getTelegramUrl() {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/telegram_social_networks`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getViberUrl() {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/viber_social_networks`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getVkUrl() {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/vk_social_networks`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  } 
+
+
   //about games
   async getGames() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/games`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/games`)
       .then((res) => {
         const data = res.data
         return data;
@@ -71,7 +106,7 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getCategories(id:number) {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/categories?game=${id}`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/categories?game=${id}`)
       .then((res) => {
         const data = res.data
         return data;
@@ -79,7 +114,7 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getTitlesForCategories() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/titles_for_categories`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/titles_for_categories`)
       .then((res) => {
         const data = res.data
         return data;
@@ -88,7 +123,7 @@ export class ApiService {
   }
 
   async getTypeOfGames() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/type_of_games`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/type_of_games`)
       .then((res) => {
         const data = res.data
         return data;
@@ -98,7 +133,7 @@ export class ApiService {
 
   //another
   async getCookiePolicy() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/cookie_policy`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/cookie_policy`)
       .then((res) => {
         const data = res.data
         return data;
@@ -106,7 +141,7 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getPrivacyPolicy() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/privacy_policy`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/privacy_policy`)
       .then((res) => {
         const data = res.data
         return data;
@@ -115,7 +150,7 @@ export class ApiService {
   }
 
   async getMainImage() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/main_images_for_actual_games`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/main_images_for_actual_games`)
       .then((res) => {
         const data = res.data
         return data;
@@ -123,7 +158,7 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getSocialNetworks() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/social_networks`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/social_networks`)
       .then((res) => {
         const data = res.data
         return data;
@@ -131,7 +166,7 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getSponsorGames() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/sponsor_games`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/sponsor_games`)
       .then((res) => {
         const data = res.data
         return data;
@@ -140,12 +175,14 @@ export class ApiService {
   }
   
   async getAskedQuestion() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/frequently_asked_questions`)
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/frequently_asked_questions`)
       .then((res) => {
         const data = res.data
         return data;
       })
       .catch(error => console.log(error))
   }
+
+ 
 
 }

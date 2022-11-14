@@ -3,7 +3,7 @@ import { lettersMock } from '../../../../utils/mockData'
 import styles from './SearchResult.module.scss'
 import SearchResultItem from './SearchResultItem'
 import { useSelector } from 'react-redux';
-import { selectGames, selectSearchItems } from '../../../../redux/selectors';
+import { selectGames, selectSearchItems, selectTestGames } from '../../../../redux/selectors';
 import { ApiService } from '../../../../api/ApiService';
 
 export type SearchResultListProps = {
@@ -27,7 +27,7 @@ export default function SearchResultList({ letter }: SearchResultListProps) {
     // let items = useSelector(selectSearchItems).filter(i => i.name.slice(0, 1) === letter)
     
     
-    const allGames = useSelector(selectGames)
+    const allGames = useSelector(selectTestGames)
     const gamesFilter = allGames.filter((i:any) => i.title.slice(0, 1) === letter)
     
     

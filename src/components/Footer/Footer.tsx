@@ -24,11 +24,21 @@ import { ApiService } from "../../api/ApiService";
 import { useState, useEffect } from "react";
 
 export default function Footer() {
-  const [socialGroup, setSocialGroup] = useState([]);
+  const [instagram, setInstagram] = useState({url:"",published:false});
+  const [telegram, setTelegram] = useState({url:"",published:false});
+  const [viber, setViber] = useState({url:"",published:false});
+  const [urlVk, setUrlVk] = useState({url:"",published:false});
   const api = new ApiService();
   const getSocialNetworks = async () => {
-    const data = await api.getSocialNetworks();
-    setSocialGroup(data);
+    const dataInst = await api.getInstagramUrl();
+    const dataTelegram = await api.getTelegramUrl();
+    const dataViber = await api.getViberUrl();
+    const dataVk = await api.getVkUrl();
+    setInstagram(dataInst)
+    setTelegram(dataTelegram)
+    setViber(dataViber)
+    setUrlVk(dataVk)
+    
   };
   useEffect(() => {
     getSocialNetworks();
@@ -43,27 +53,27 @@ export default function Footer() {
         <Link to={{ pathname: MAIN_URL }}>Отправить запрос</Link>
       </div>
       <div className={styles.groupSocial}>
-        <a href="#" target="_blank">
+        <a href={telegram.url} style={{ display: !telegram.published ? "block" : "none"}} target="_blank">
           <img src={tg} className={styles.t} alt="icon" />
           <img src={tgB} className={styles.b} alt="icon" />
           <img src={tgG} className={styles.g} alt="icon" />
         </a>
-        <a href="#" target="_blank">
+        <a href={viber.url} style={{ display: !viber.published ? "block" : "none"}} target="_blank">
           <img src={wa} className={styles.t} alt="icon" />
           <img src={waB} className={styles.b} alt="icon" />
           <img src={waG} className={styles.g} alt="icon" />
         </a>
-        <a href="#" target="_blank">
+        {/* <a href="#"  target="_blank">
           <img src={yt} className={styles.t} alt="icon" />
           <img src={ytB} className={styles.b} alt="icon" />
           <img src={ytG} className={styles.g} alt="icon" />
-        </a>
-        <a href="#" target="_blank">
+        </a> */}
+        <a href={instagram.url} style={{ display: !instagram.published ? "block" : "none"}} target="_blank">
           <img src={inst} className={styles.t} alt="icon" />
           <img src={instB} className={styles.b} alt="icon" />
           <img src={instG} className={styles.g} alt="icon" />
         </a>
-        <a href="#" target="_blank">
+        <a href={urlVk.url} style={{ display: !urlVk.published ? "block" : "none"}} target="_blank">
           <img src={vk} className={styles.t} alt="icon" />
           <img src={vkB} className={styles.b} alt="icon" />
           <img src={vkG} className={styles.g} alt="icon" />

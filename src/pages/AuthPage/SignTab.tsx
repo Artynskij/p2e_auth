@@ -39,11 +39,11 @@ export default function SignTab({ setToken }: SignTabProps) {
 
   const userLogin = async (userCredentials: UserLogInCredentials) => {
     const apiService = new ApiService();
-    const allDataUser: { email: string; username: string; token: string } =
+    const allDataUser: { email: string; username: string; access: string } =
       await apiService.userLogin(userCredentials);
-    const { email, username, token } = allDataUser;
+    const { email, username, access } = allDataUser;
 
-
+const token = access
     const dataUser = { email: email, username: username };
 
     if (token) {

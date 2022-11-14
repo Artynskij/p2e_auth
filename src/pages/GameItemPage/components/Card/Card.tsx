@@ -9,37 +9,30 @@ import { ApiService } from "../../../../api/ApiService";
 
 // export type CardProps = typeof games[0];
 export type CardProps = {
-  id: number;
-  title: string;
-  description: string;
-  image_of_game: string;
+  game: {
+    id: number;
+    title: string;
+    description: string;
+    image_of_game: string;
+  };
+  categories: {
+    slug: string;
+    title: string;
+    id: number;
+    game: number;
+    title_column: never[];
+  }[];
 };
 
-export default function Card({
-  image_of_game,
-  title,
-  description,
-  id,
-}: CardProps) {
+export default function Card({ categories, game }: CardProps) {
   const ref = useRef<HTMLFormElement>(null);
+  console.log(categories);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [categories, setCategories] = useState([
-    { slug: "", title: "", id: 0, game: 0 },
-  ]);
+  
   const [auth, setAuth] = useState(false);
   const dataUser = useSelector(selectDataUser);
-
-  const api = new ApiService();
-  const getCategories = async () => {
-    const data = await api.getCategories(id);
-    setCategories(data);
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   const sendSellerExist = async (dataSeller: any) => {
     const apiService = new ApiService();
@@ -114,15 +107,15 @@ export default function Card({
     <div className={styles.container}>
       <img
         className={styles.img}
-        src={`https://alexeygrinch.pythonanywhere.com${image_of_game}`}
+        src={`https://alexeygrinch.pythonanywhere.com${game.image_of_game}`}
         alt="avatar"
       />
       <div>
         <div className={styles.title}>
-          <span>{title}</span>
+          <span>{game.title}</span>
           <button onClick={openModal}>Продать {sellItemName}</button>
         </div>
-        <div className={styles.text}>{description}</div>
+        <div className={styles.text}>{game.description}</div>
         <div className={styles.itemContainer}>
           {/* {tags.en.split(",").map((item, index) => (
             <NavLink
@@ -139,18 +132,19 @@ export default function Card({
               {tags.ru.split(",")[index]}
             </NavLink>
           ))} */}
-          {categories.map((cat) => {
+          {categories.map((cat, index) => {
             return (
               <NavLink
+                key={index}
                 className={
                   pathname.includes(
                     cat.slug.replace(/\s+/g, "").toLowerCase()
                   ) ||
-                  (pathname === `${GAMES_URL}/${title}` && id === 0)
+                  (pathname === `${GAMES_URL}/${game.title}` && game.id === 0)
                     ? `${styles.item} ${styles.itemActive}`
                     : styles.item
                 }
-                to={`${GAMES_URL}/${title}/${cat.slug
+                to={`${GAMES_URL}/${game.title}/${cat.slug
                   .replace(/\s+/g, "")
                   .toLowerCase()}`}>
                 {cat.title}

@@ -13,7 +13,7 @@ export const store = configureStore({
     feedBack: feedBackReducer,
     user:userReducer,
     games:gamesReducer,
-    gamesTest: gamesTestSlice,
+    gamesTest: gamesTestSlice.reducer,
   },
 })
 
