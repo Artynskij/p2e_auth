@@ -58,16 +58,19 @@ import { getGames } from "./redux/reducers/gamesReducer";
 
 function App() {
   
+  const dispatch = useDispatch();
+  const funcGetGames = async () => {
+    const api = new ApiService();
+    const games = await api.getGames();
+    dispatch(getGames(games));
+    console.log("mainPage");
+  };
+  useEffect(() => {
+    
+  }, []);
   const NavigationContainer = () => {
-    const dispatch = useDispatch();
-    const funcGetGames = async () => {
-      const api = new ApiService();
-      const games = await api.getGames();
-      dispatch(getGames(games));
-    };
-    useEffect(() => {
-      funcGetGames();
-    }, []);
+    funcGetGames();
+    
     
     const location = useLocation();
     const { token, setToken } = useToken();

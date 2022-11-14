@@ -21,7 +21,7 @@ export default function RegTab() {
     const [registered, setRegistered ] = useState(false)
     const ref = useRef<HTMLFormElement>(null)
 
-    const [captchaVerify, setCaptchaVerify] = useState(false)
+    const [captchaVerify, setCaptchaVerify] = useState(true)
     const captchaRef = useRef<any>(null)
     const handleCaptchaVerify = useCallback((token: string | null) => {
         if (token === null) setCaptchaVerify(false);
@@ -125,7 +125,7 @@ if(registered) return <Redirect to={"/login"}/>
                 <input onChange={() => setTOUR(prev => prev === 'false' ? 'true' : 'false')} checked={TOUR === 'true'} type='checkbox' className={styles.radio} id='radio' />
                 <label htmlFor='radio' style={{ fontSize: 10 }}>Я прочитал(а) и принимаю условия пользовательсткого соглашения</label>
             </div>
-            <Repatcha ref={captchaRef} onChange={handleCaptchaVerify} size={window.innerWidth <= 400 ? 'compact' : 'normal'} theme='dark' hl='ru' sitekey={'6LcF4-whAAAAAMUm1K7CQkl04fG7f2yOxDPzmeaQ'} />
+            {/* <Repatcha ref={captchaRef} onChange={handleCaptchaVerify} size={window.innerWidth <= 400 ? 'compact' : 'normal'} theme='dark' hl='ru' sitekey={'6LcF4-whAAAAAMUm1K7CQkl04fG7f2yOxDPzmeaQ'} /> */}
             <button className={styles.btn} style={{ marginBottom: 0 }}>Регистрация</button>
             <Toastify status={toastifyStatus} />
         </form>

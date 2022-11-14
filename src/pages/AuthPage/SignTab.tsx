@@ -29,7 +29,7 @@ export default function SignTab({ setToken }: SignTabProps) {
   const [entered, setEntered] = useState(false);
   const ref = useRef<HTMLFormElement>(null);
 
-  const [captchaVerify, setCaptchaVerify] = useState(false);
+  const [captchaVerify, setCaptchaVerify] = useState(true);
   const captchaRef = useRef<any>(null);
   const handleCaptchaVerify = useCallback((token: string | null) => {
     if (token === null) setCaptchaVerify(false);
@@ -120,14 +120,14 @@ export default function SignTab({ setToken }: SignTabProps) {
         />
         <label htmlFor="radio">Запомнить меня</label>
       </div>
-      <Repatcha
+      {/* <Repatcha
         ref={captchaRef}
         onChange={handleCaptchaVerify}
         size={window.innerWidth <= 400 ? "compact" : "normal"}
         theme="dark"
         hl="ru"
         sitekey={"6LcF4-whAAAAAMUm1K7CQkl04fG7f2yOxDPzmeaQ"}
-      />
+      /> */}
       <button className={styles.btn} style={{ marginBottom: 0 }}>
         Войти
       </button>

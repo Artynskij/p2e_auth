@@ -22,7 +22,7 @@ export default function MainPage() {
     });
   };
 
-  const [mainImg, setMainImg] = useState("");
+  const [mainImg, setMainImg] = useState([{title:"", img:"", id:0}]);
   const api = new ApiService();
   const funcGetMainImg = async () => {
     const data = await api.getMainImage();
@@ -31,6 +31,7 @@ export default function MainPage() {
   useEffect(() => {
     funcGetMainImg();
   }, []);
+
 
   const show = useScrollDirection();
 
@@ -100,7 +101,10 @@ export default function MainPage() {
 
   return (
     <>
-      <img className={styles.img} src={hero} alt="hero" />
+    {mainImg.map((item) => {
+      return <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${item.img}`} alt={item.title} />
+    })}
+      
       <div className={styles.result} id="result">
         <Letters handleClick={letterClick} />
         <div className={styles.resultInner}>

@@ -107,6 +107,7 @@ export default function Table(props: TableProps) {
             {props.subCat?.map((element: any, i: any) => {
                         return (
                             <TableItemName
+                                key={i}
                                 className={styles.headerServer}
                                 enName={`enName${i}`}
                                 name={element.title}

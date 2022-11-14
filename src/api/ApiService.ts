@@ -7,6 +7,8 @@ import { UserRegistrationCredentials } from "../models/userRegistrationCredentia
 import { SellerExistCredential } from "../models/sellerExistCredential";
 
 export class ApiService {
+
+  //auth
   async userLogin(userCredentials: UserLogInCredentials) {
     return axios.post(`${process.env.REACT_APP_BASE_URL}api/login/`, userCredentials)
       .then(res => {
@@ -39,7 +41,14 @@ export class ApiService {
       })
 
   }
+  async sellerExist(sellerExistCredential: SellerExistCredential) {
+    axios.post(`${process.env.REACT_APP_BASE_URL}api/is_seller_for_exist/`, sellerExistCredential)
+      .then(res => console.log(res))
+      .catch(error => console.log(error))
 
+  }
+
+  //feedback
   saveFeedback(feedBack: Feedback) {
     axios.post(`${process.env.REACT_APP_BASE_URL}api/feedback/`, feedBack)
       .then((res) => alert("Отзыв принят"))
@@ -51,6 +60,8 @@ export class ApiService {
       .then((res) => { return res.data; })
       .catch(error => console.log(error))
   }
+
+  //about games
   async getGames() {
     return axios.get(`${process.env.REACT_APP_BASE_URL}api/games`)
       .then((res) => {
@@ -60,13 +71,32 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getCategories(id:number) {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/categories/${id}`)
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/categories?game=${id}`)
       .then((res) => {
         const data = res.data
         return data;
       })
       .catch(error => console.log(error))
   }
+  async getTitlesForCategories() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/titles_for_categories`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+
+  async getTypeOfGames() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/type_of_games`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+
+  //another
   async getCookiePolicy() {
     return axios.get(`${process.env.REACT_APP_BASE_URL}api/cookie_policy`)
       .then((res) => {
@@ -108,8 +138,9 @@ export class ApiService {
       })
       .catch(error => console.log(error))
   }
-  async getTitlesForCategories() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/titles_for_categories`)
+  
+  async getAskedQuestion() {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}api/frequently_asked_questions`)
       .then((res) => {
         const data = res.data
         return data;
@@ -117,18 +148,4 @@ export class ApiService {
       .catch(error => console.log(error))
   }
 
-  async getTypeOfGames() {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}api/type_of_games`)
-      .then((res) => {
-        const data = res.data
-        return data;
-      })
-      .catch(error => console.log(error))
-  }
-  async sellerExist(sellerExistCredential: SellerExistCredential) {
-    axios.post(`${process.env.REACT_APP_BASE_URL}api/is_seller_for_exist/`, sellerExistCredential)
-      .then(res => console.log(res))
-      .catch(error => console.log(error))
-
-  }
 }

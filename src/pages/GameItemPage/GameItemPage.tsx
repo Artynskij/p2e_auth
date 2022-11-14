@@ -17,7 +17,8 @@ export default function GameItemPage() {
     const games = useSelector(selectGames)
     const [data, setData] = useState(null)
    
-    const item = useMemo(() => games.filter((item:any) => pathname.includes(item.title.replace(/%20/, ' ')))[0], [pathname])
+    const itemGame = useMemo(() => games.filter((item:any) => pathname.includes(item.title.replace(/%20/, ' ')))[0], [pathname])
+    console.log(itemGame);
     
     const api = new ApiService()
     const getData = async () => {
@@ -36,10 +37,10 @@ export default function GameItemPage() {
     return (
         <div>
             <Breadcrumbs />
-            <Card {...item} />
+            <Card {...itemGame} />
             <Switch>
-                <Route path={`${GAMES_URL}/${item.title}/all`} exact>
-                    <Table subCat={data} items={kinahMock} game={item.title} />
+                <Route path={`${GAMES_URL}/${itemGame.title}`} exact>
+                    <Table subCat={data} items={kinahMock} game={itemGame.title} />
                     
                 </Route>
                 {/* {tags.en.split(',').map((t, index) => {

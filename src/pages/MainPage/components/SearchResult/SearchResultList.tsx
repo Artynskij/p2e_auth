@@ -13,16 +13,16 @@ export type SearchResultListProps = {
 export default function SearchResultList({ letter }: SearchResultListProps) {
     const [data, setData] = useState(null)
     const api = new ApiService()
-    const getData = async () => {
-        const data = await api.getCategories(1)
-        setData(data)
+    // const getData = async () => {
+    //     const data = await api.getCategories(1)
+    //     setData(data)
         
-    }
-    useEffect(() => {
-        getData()
+    // }
+    // useEffect(() => {
+    //     getData()
         
         
-    }, [])
+    // }, [])
     // console.log(data);
     // let items = useSelector(selectSearchItems).filter(i => i.name.slice(0, 1) === letter)
     

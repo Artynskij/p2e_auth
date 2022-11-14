@@ -15,24 +15,23 @@ export type SearchResultItemProps = {
   image_of_game: string;
   title: string;
   description: string;
-  
 };
 export default function SearchResultItem({
   id,
   image_of_game,
-  title
+  title,
 }: SearchResultItemProps) {
   const [data, setData] = useState(null);
-  const [tag, setTag] = useState({slug:"", title:""});
+  const [tag, setTag] = useState([{ slug: "", title: "", id: 0 }]);
   const api = new ApiService();
+
   const getData = async () => {
     const data = await api.getCategories(id);
     setData(data);
     setTag(data);
-    
-    
   };
   
+
   useEffect(() => {
     getData();
   }, []);
@@ -46,19 +45,25 @@ export default function SearchResultItem({
       />
       <div>
         <Link
-          to={{ pathname: `${GAMES_URL}/${title}/all` }}
+          to={{ pathname: `${GAMES_URL}/${title}` }}
           className={styles.itemName}>
           {title}
         </Link>
-        <div className={styles.itemTags}>
-          {/* {
+
+        {/* {
                         tags.en.split(',').map((tag, index, arr) => (
                             <Link to={{pathname: `${GAMES_URL}/${title}/${tag.replace(/\s+/g, '').toLowerCase()}`}} key={index}>{tags.ru.split(',')[index]}{index !== (arr.length - 1)  && ', '}</Link>
                         ))
                     } */}
-                     
-           <Link to={{pathname: `${GAMES_URL}/${title}/${tag.slug}`}} >{tag.title}</Link>
-        </div>
+        {tag.map((tag) => {
+          return (
+            <div key={tag.id} className={styles.itemTags}>
+              <Link to={{ pathname: `${GAMES_URL}/${title}/${tag.slug.replace(/\s+/g, '').toLowerCase()}` }}>
+                {tag.title}
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

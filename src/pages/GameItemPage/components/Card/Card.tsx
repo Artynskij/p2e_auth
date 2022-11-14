@@ -1,11 +1,5 @@
 import { NavLink, Redirect, useLocation } from "react-router-dom";
-import {
-  useState,
-  useRef,
-  useCallback,
-  FormEvent,
-  useEffect,
-} from "react";
+import { useState, useRef, useCallback, FormEvent, useEffect } from "react";
 import { GAMES_URL } from "../../../../utils/links";
 import styles from "./Card.module.scss";
 import { Modal } from "../../../../components/Modal/Modal";
@@ -31,7 +25,9 @@ export default function Card({
 
   const [modalVisible, setModalVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [categories, setCategories] = useState({slug:"", title:""});
+  const [categories, setCategories] = useState([
+    { slug: "", title: "", id: 0, game: 0 },
+  ]);
   const [auth, setAuth] = useState(false);
   const dataUser = useSelector(selectDataUser);
 
@@ -39,9 +35,7 @@ export default function Card({
   const getCategories = async () => {
     const data = await api.getCategories(id);
     setCategories(data);
-    
   };
-
 
   useEffect(() => {
     getCategories();
@@ -107,7 +101,7 @@ export default function Card({
 
   let sellItemName = pathname.includes("Аккаунты")
     ? "аккаунты"
-    : pathname.includes(categories.slug)
+    : pathname.includes("categories.slug")
     ? "аккаунт"
     : pathname.includes("all")
     ? "предметы"
@@ -145,19 +139,26 @@ export default function Card({
               {tags.ru.split(",")[index]}
             </NavLink>
           ))} */}
-          <NavLink
-              className={
-                pathname.includes(categories.slug.replace(/\s+/g, "").toLowerCase()) ||
-                (pathname === `${GAMES_URL}/${title}` && id === 0)
-                  ? `${styles.item} ${styles.itemActive}`
-                  : styles.item
-              }
-              to={`${GAMES_URL}/${title}/${categories.slug
-                .replace(/\s+/g, "")
-                .toLowerCase()}`}>
-              {categories.title}
-            </NavLink>
-            <NavLink
+          {categories.map((cat) => {
+            return (
+              <NavLink
+                className={
+                  pathname.includes(
+                    cat.slug.replace(/\s+/g, "").toLowerCase()
+                  ) ||
+                  (pathname === `${GAMES_URL}/${title}` && id === 0)
+                    ? `${styles.item} ${styles.itemActive}`
+                    : styles.item
+                }
+                to={`${GAMES_URL}/${title}/${cat.slug
+                  .replace(/\s+/g, "")
+                  .toLowerCase()}`}>
+                {cat.title}
+              </NavLink>
+            );
+          })}
+
+          {/* <NavLink
               className={
                 pathname.includes(categories.slug.replace(/\s+/g, "").toLowerCase()) ||
                 (pathname === `${GAMES_URL}/${title}` && id === 0)
@@ -166,7 +167,7 @@ export default function Card({
               }
               to={`${GAMES_URL}/${title}/all`}>
               All
-            </NavLink>
+            </NavLink> */}
         </div>
       </div>
       <Modal

@@ -1,7 +1,13 @@
-.container{
+
+ ::selection {
+    background: #809778; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+   }
+   .container{
     display: flex;
     align-items: center;
     margin-bottom: 60px;
+   
 }
 
 .img{

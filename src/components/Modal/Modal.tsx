@@ -2,8 +2,16 @@ import styles from "./modal.module.scss";
 
 
 export const Modal = (props: any) => {
+  const closeModal = (e:any) => {
+
+    if(e.target === e.currentTarget){
+      props.setActive(false)
+    }
+    
+    
+  }
   return props.active ? (
-    <div className={styles.modal + " " + styles.active}>
+    <div onClick={closeModal} className={styles.modal + " " + styles.active}>
       <div className={styles.modal__ctn_content + " " + styles.active}>
         <button onClick={() => props.setActive(false)} className={styles.icon}>
           +

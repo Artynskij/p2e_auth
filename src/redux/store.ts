@@ -4,6 +4,7 @@ import { feedBackReducer } from './reducers/feedbackReducer'
 import  {gamesReducer}  from './reducers/gamesReducer'
 import { searchReducer } from './reducers/searchReducer'
 import { userReducer } from './reducers/userReducer'
+import { gamesTestSlice } from "./reducers/testGamesReducer"
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     search: searchReducer,
     feedBack: feedBackReducer,
     user:userReducer,
-    games:gamesReducer
+    games:gamesReducer,
+    gamesTest: gamesTestSlice,
   },
 })
 
