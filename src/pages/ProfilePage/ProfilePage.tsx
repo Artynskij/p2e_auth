@@ -72,7 +72,7 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className={styles.contentRight}>
-              <span>{mockUser.role}</span>
+              <span>{dataUser.isSeller ? "Продавец" : "Пользователь"}</span>
               <span>{dataUser.username}</span>
               <span>{dataUser.email}</span>
               <span>{mockUser.balance} p</span>

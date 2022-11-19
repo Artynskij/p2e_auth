@@ -32,7 +32,7 @@ export default function Sponsor() {
   useEffect(() => {
     getSponsor();
   }, []);
-  if (sponsorGames.length > 2) {
+  if (sponsorGames.length > 0) {
     return (
       <div className={styles.container}>
         <Slider
