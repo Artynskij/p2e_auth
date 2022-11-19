@@ -4,9 +4,13 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
 
-export const Dropdown = ({ options, setSelectValue }: any) => {
-  const onChange = (newValue: any): void => {
-    setSelectValue(newValue);
+export const Dropdown = ({name, options, setSelectValue,isMulti }: any) => {
+  const onChange = (newValue:any): void => {
+   const selectValue = {
+    value:name,
+    label:newValue.label
+   } 
+      setSelectValue(selectValue);
   };
 
 
@@ -28,12 +32,12 @@ export const Dropdown = ({ options, setSelectValue }: any) => {
   return (
     <div className={"dropdown__ctn__selected_value"}>
       <Select
-        placeholder={"выберите игру"}
+        placeholder={name}
         classNamePrefix={"dropdown-styles"}
         closeMenuOnSelect={true}
         components={animatedComponents}
         pageSize={30}
-        isMulti
+        isMulti={isMulti}
         onChange={onChange}
 
         options={options}

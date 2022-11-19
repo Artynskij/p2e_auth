@@ -4,8 +4,9 @@ import { addBreadcrumbsItem, BreadcrumbsItemType, deleteBreadcrumbItem } from '.
 
 export const useBreadcrumbs = (items: BreadcrumbsItemType | BreadcrumbsItemType[] | null) => {
     const dispatch = useDispatch()
-
     useEffect(() => {
+        
+        
         if (items === null) return;
         dispatch(addBreadcrumbsItem(items))
         return () => {
@@ -16,5 +17,5 @@ export const useBreadcrumbs = (items: BreadcrumbsItemType | BreadcrumbsItemType[
                 dispatch(deleteBreadcrumbItem(items.name))
             }
         }
-    }, [])
+    }, [items])
 }

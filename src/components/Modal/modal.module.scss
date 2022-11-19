@@ -20,6 +20,7 @@
 }
 
 .modal__ctn_content {
+    overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,5 +45,9 @@
     background-color: transparent;
     border: none;
     color: white;
+}
+.modalBg{
+    width: 70%;
+    height: 100%;
 }
 

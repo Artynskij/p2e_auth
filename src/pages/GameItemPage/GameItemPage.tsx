@@ -19,9 +19,10 @@ import { GamesModel } from "../../models/gamesModel";
 
 export default function GameItemPage() {
   const [subCategories, setSubCategories] = useState([]);
-  const [categories, setCategories] = useState([
-    { slug: "", title: "", id: 0, game: 0 , title_column:[]},
+  const [allCategories, setAllCategories] = useState([
+    { slug: "", title: "", id: 0, game: 0 , title_column:[], description:""},
   ]);
+  const [allServices, setAllServices] = useState([{category:0}])
   const api = new ApiService();
   const games = useSelector(selectGames);
 
@@ -34,32 +35,42 @@ export default function GameItemPage() {
       )[0],
     [pathname, games]
   );
+ 
+  const activeCategory:any = allCategories.find((el) => {return pathname.includes(el.slug.replace(/\s+/g, "").toLowerCase())})
+  const categoryServices = allServices.filter((el) => el.category === activeCategory.id)
+  
+  console.log(categoryServices);
+  
   const getCategories = async () => {
     const data = await api.getCategories(itemGame.id);
-    setCategories(data);
-    const { title_column } = data
-    console.log(data);
+    setAllCategories(data);
     
+    const { title_column } = data
     setSubCategories(title_column)
   };
+  const getServices = async () => {
+    const data = await api.getServices()
+    setAllServices(data)
+  }
+
 
   useEffect(() => {
-    
+    getServices()
     getCategories()
     window.scroll({
       top: 0,
       behavior: "smooth",
     });
   }, [itemGame]);
-  if (itemGame) {
+  if (itemGame && allCategories) {
     return (
       <div>
         <Breadcrumbs />
-        <Card game={itemGame} categories={categories}  />
+        <Card game={itemGame} activeCategory={activeCategory} categories={allCategories}  />
         <Switch>
-          {/* <Route path={`${GAMES_URL}/${itemGame.title}`} exact>
-            <Table categories={categories} items={kinahMock} game={itemGame.title} />
-          </Route> */}
+          <Route path={`${GAMES_URL}/${itemGame.title}/${activeCategory?.slug || "all"}`} exact>
+            <Table categories={allCategories} activeCategory={activeCategory} items={kinahMock} game={itemGame.title} />
+          </Route>
           {/* {tags.en.split(',').map((t, index) => {
                         return <Route key={index} path={`${GAMES_URL}/${item.name}/${t.replace(/\s+/g, '').toLowerCase()}`}>
                             <Table items={pathname.includes('kinah') ? kinahMock : pathname.includes('accounts') ? accountsMock : pathname.includes('items') ? itemsMock : servicesMock} game={item.name} />
@@ -70,6 +81,6 @@ export default function GameItemPage() {
       </div>
     );
   } else {
-    return <div>круг с загрузкой</div>;
+    return <div style={{color:"white"}}>круг с загрузкой</div>;
   }
 }

@@ -9,7 +9,7 @@
 .dropdown-styles {
   &-container {
     
-    min-height: 38px !important;
+    height: 8px !important;
     padding: 8px 0 !important;
   }
   &__control {
@@ -17,6 +17,7 @@
     box-shadow: none !important;
     &--menu-is-open {
         border-color: #07bc0c !important;
+
       }
   }
   
@@ -29,6 +30,7 @@
   }
   &__value-container {
     color: #919191 !important;
+    // color: red !important;
     height: 100% !important;
     // width: 100% !important;
     // display: none !important;

@@ -94,6 +94,8 @@ function App() {
       const dataUser = {
         email: "",
         username: "",
+        isSeller:false,
+        id:0
       };
       dispatch(addDataUser(dataUser));
     }

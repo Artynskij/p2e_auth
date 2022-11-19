@@ -9,6 +9,9 @@
     margin-bottom: 60px;
    
 }
+.card_description {
+    width: 100%;
+}
 
 .img{
     display: block;
@@ -112,6 +115,26 @@
         background: transparent;
         border: 1px solid #fff;
     }
+    textarea{
+        width: 100%;
+        border: none;
+        outline: none;
+        height: 38px;
+        padding: 8px 12px;
+        // margin: 10px 0;
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        border-radius: 4px;
+        font-weight: 400;
+        color: #919191;
+        font-family: 'Source Sans Pro';
+        background: transparent;
+        border: 1px solid #fff;
+        text-decoration: none;
+        resize: none;
+        height: 90px;
+    }
     &_disabled{
         border: 1px solid rgb(5, 105, 8) !important;
     }
@@ -138,7 +161,7 @@
         color: #fff;
         display: block;
         width: 100%;
-        margin-top: 20px;
+        margin: 20px 0;
         &:hover{
             opacity: 1 !important;
             background: var(--active);

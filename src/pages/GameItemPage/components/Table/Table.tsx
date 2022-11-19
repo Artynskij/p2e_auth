@@ -16,6 +16,14 @@ export type TableProps = {
         game: number;
         title_column: {title:string, choices:[]}[];
       }[];
+      activeCategory:{
+        slug: string;
+        title: string;
+        id: number;
+        game: number;
+        title_column: never[];
+        description: string;
+      }
     items: typeof kinahMock | typeof accountsMock | typeof itemsMock | typeof servicesMock
     className?: string
     customCategory?: {
@@ -29,15 +37,19 @@ export type TableItemKeys = keyof TableFiltersType
 
 export default function Table(props: TableProps) {
     const { pathname } = useLocation()
-    let category = pathname.includes('all') ? {name: 'Кинары', link: pathname} : pathname.includes('accounts') ? {name: 'Аккаунты', link: pathname} : pathname.includes('items') ? {name: 'Предметы', link: pathname} : pathname.includes('services') ? {name: 'Услуги', link: pathname} : null
-    console.log(props.categories);
+    
+
+
+
+
+    let category = pathname.includes(`${props.activeCategory?.slug}`) ? {name: props.activeCategory?.title, link: pathname} : pathname.includes('all') ? {name: 'All', link: pathname} : pathname.includes('akkaunty') ? {name: 'Предметы', link: pathname} : pathname.includes('services') ? {name: 'Услуги', link: pathname} : null
+    
+    
     
     // @ts-ignore
-
-    useBreadcrumbs([{name: props.game, link: `${GAMES_URL}/${props.game}`}, category].filter(i => i !== null))
+    useBreadcrumbs([{name: props.game, link: `${GAMES_URL}/${props.game}/all`}, category].filter(i => i !== null))
     const [filters, setFilters] = useState<TableFiltersType>({} as TableFiltersType)
     const [items, setItems] = useState(props.items)
-    
     const [maxLvl, setMaxLvl] = useState('')
     const [minLvl, setMinLvl] = useState('')
     // const [categorTrue, setMinLvl] = useState('')
@@ -110,7 +122,7 @@ export default function Table(props: TableProps) {
                 )}
             </div>
             <div className={styles.header}>
-            {props.categories?.map((element: any, i: any) => {
+            {props.activeCategory?.title_column?.map((element: any, i: any) => {
                         return (
                             <TableItemName
                                 key={i}
@@ -124,11 +136,11 @@ export default function Table(props: TableProps) {
                         );
                     })}
                 {/* <TableItemName className={styles.headerServer} enName='server' name='Сервер' items={getUniqeItems('server')} filters={filters} setNewFilter={setFilters} /> */}
-                {/* <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} />
+                {/* <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} /> */}
                 <div className={styles.desc}>Описание</div>
                 <TableItemName className={styles.nik} enName='online' name='Ник' items={['Онлайн', 'Оффлайн']} filters={filters} setNewFilter={setFilters} />
                 <div className={styles.count}>Наличные</div>
-                <div>Цена</div> */}
+                <div>Цена</div>
             </div>
             <div className={styles.list}>
                 {

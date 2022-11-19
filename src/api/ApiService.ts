@@ -5,6 +5,7 @@ import { Feedback } from "../models/feedback";
 import { UserLogInCredentials } from "../models/userLogInCredentials";
 import { UserRegistrationCredentials } from "../models/userRegistrationCredentials";
 import { SellerExistCredential } from "../models/sellerExistCredential";
+import { Service } from "../models/service";
 
 export class ApiService {
 
@@ -12,6 +13,18 @@ export class ApiService {
   async userLogin(userCredentials: UserLogInCredentials) {
     return axios.post(`https://alexeygrinch.pythonanywhere.com/api/login/`, userCredentials)
       .then(res => {
+        const dataUser = res.data;
+        return dataUser
+      })
+      .catch(error => {
+        return error
+      })
+  }
+  async userRefresh() {
+    return axios.post(`https://alexeygrinch.pythonanywhere.com/api/token/refresh/`)
+      .then(res => {
+     console.log(res);
+
 
         const dataUser = res.data;
 
@@ -130,6 +143,43 @@ export class ApiService {
       })
       .catch(error => console.log(error))
   }
+
+  //services 
+  async getServices() {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/services`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getServicesById(id:number) {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/services/${id}`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async postServices(service:Service) {
+    console.log(service);
+    
+    return axios.post(`https://alexeygrinch.pythonanywhere.com/api/services/`, service)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async deleteService(id:number) {
+    return axios.delete(`https://alexeygrinch.pythonanywhere.com/api/services/${id}`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  
 
   //another
   async getCookiePolicy() {

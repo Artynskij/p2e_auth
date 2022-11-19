@@ -45,7 +45,7 @@ export default function SearchResultItem({
       />
       <div>
         <Link
-          to={{ pathname: `${GAMES_URL}/${title}` }}
+          to={{ pathname: `${GAMES_URL}/${title}/all` }}
           className={styles.itemName}>
           {title}
         </Link>
