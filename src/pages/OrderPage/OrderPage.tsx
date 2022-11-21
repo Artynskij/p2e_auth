@@ -10,16 +10,49 @@ import { useBreadcrumbs } from '../../hooks/useBreadcrumbs';
 import { HistoryReview } from './HistoryReview';
 import { BreadcrumbsItemType } from '../../redux/reducers/breadcrumbsReducer';
 import { GAMES_URL } from './../../utils/links';
-
+import { ApiService } from '../../api/ApiService';
+import CircleOfLoading from '../../components/circleOfLoading/circleOfLoading';
+type Comment = {
+    client:number,
+    description:string,
+    publish_date:string,
+    service_of_seller:number,
+    star:number
+}
+type LocationType = {
+    category: BreadcrumbsItemType | null;
+    gameTitle:string;
+    service:{
+      id:string,
+      short_description:string,
+      detail_description:string,
+      category: number,
+      seller: {id:number,username: string,user_rating:number,img:string },
+      price: string,
+      additional: {title:string, description:string}[]
+    };
+    activeCategory:{
+      slug: string;
+      title: string;
+      id: number;
+      game: number;
+      title_column: { title: string; choices: [] }[];
+      description: string;
+    };
+}
 export default function OrderPage() {
-    const location = useLocation<{ game: string; avatar: string; nikname: string, online: string, category: BreadcrumbsItemType | null, id: number }>()
+    const location = useLocation<LocationType>()
+
+    const [usersComments, setUsersComments] = useState<Comment[] | null>(null)
+    
+    const  api = new ApiService()
     const history = useHistory()
-    let breadcrumbItems = [{ name: location.state?.game, link: `${GAMES_URL}/${location.state?.game}` } || null, location.state?.category ? location.state?.category : null].filter(i => i !== null)
+    let breadcrumbItems = [{ name: `${location.state?.gameTitle} : ${location.state?.activeCategory.title}`, link: `${GAMES_URL}/${location.state?.gameTitle}/${location.state?.activeCategory.slug}` } || null].filter(i => i !== null)
     //@ts-ignore
-    if (breadcrumbItems.some(i => i.ru !== undefined)) {
-        //@ts-ignore
-        breadcrumbItems = [{ name: location.state?.game, link: `${GAMES_URL}/${location.state?.game}` } || null, location.state?.category ? {name: location.state?.category.ru, link: `${GAMES_URL}/${location.state?.game}/${location.state?.category.en}`} : null].filter(i => i !== null)
-    }
+    // if (breadcrumbItems.some(i => i.ru !== undefined)) {
+    //     //@ts-ignore
+    //     breadcrumbItems = [{ name: location.state?.game, link: `${GAMES_URL}/${location.state?.game}` } || null, location.state?.category ? {name: location.state?.category.ru, link: `${GAMES_URL}/${location.state?.game}/${location.state?.category.en}`} : null].filter(i => i !== null)
+    // }
     //@ts-ignore
     useBreadcrumbs(breadcrumbItems)
     const [name, setName] = useState('')
@@ -27,8 +60,17 @@ export default function OrderPage() {
     const [count, setCount] = useState('0')
     const [chat, updateChat] = useState<chatType[]>([])
     const [mess, setMess] = useState('')
+    const getComments =async (id:number) => {
+        const data = await api.getCommentsToSeller(id)
+        console.log(data);
+        
+        setUsersComments(data)
+}
 
     useEffect(() => {
+        console.log(location.state.service.seller);
+        
+        getComments(location.state.service.seller.id)
         window.scroll({
             top: 0,
             behavior: 'smooth'
@@ -43,23 +85,29 @@ export default function OrderPage() {
     return (
         <div className={styles.container}>
             <Breadcrumbs />
-            <div className={styles.title}>{location.state.game || ''}</div>
+            <div className={styles.title}>{location.state.gameTitle || ''}</div>
             <div className={styles.content}>
                 <div>
                     <div className={styles.table}>
                         <div className={styles.tableHeader}>
                             <span>Игра:</span>
                             <span>Категория:</span>
-                            <span>Сторона:</span>
-                            <span>Сервер:</span>
+                            {location.state.service.additional.map((service, index) => (
+                                <span key={index}>{service.title}: </span>
+                            ))}
+                            {/* <span>Сторона:</span>
+                            <span>Сервер:</span> */}
                             <span>Количество:</span>
                         </div>
                         <div className={styles.tableRow}>
-                            <span>AION</span>
-                            <span>Кинары</span>
-                            <span>Асмодиане</span>
-                            <span>Нортика</span>
-                            <span>500кк</span>
+                            <span>{location.state.gameTitle}</span>
+                            <span>{location.state.activeCategory.title}</span>
+                            {location.state.service.additional.map((service, index) => (
+                                <span key={index}>{service.description}</span>
+                            ))}
+                            {/* <span>Асмодиане</span>
+                            <span>Нортика</span> */}
+                            <span>сколько-то там</span>
                         </div>
                     </div>
                     <div className={styles.inputs}>
@@ -91,14 +139,15 @@ export default function OrderPage() {
                         </Link>
                     </div>
                 </div>
-                <HistoryReview />
+               {usersComments ? <HistoryReview  userComments={usersComments}/> : <CircleOfLoading/>}
+                
                 <div className={styles.chat}>
-                    <Link to={`${USER_URL}/${location.state.id}`}>
+                    <Link to={`${USER_URL}/${location.state.service.seller.id}`}>
                         <div className={styles.chatHeader}>
-                            <img src={location.state.avatar} alt='avatar' />
+                            <img src={location.state.service.seller.username} alt='avatar' />
                             <div>
-                                <div className={styles.chatName}>{location.state.nikname || 'nick'}</div>
-                                <div className={styles.chatStatus}>{location.state.online === 'Онлайн' ? 'online' : 'offline'}</div>
+                                <div className={styles.chatName}>{location.state.service.seller.username || 'nick'}</div>
+                                <div className={styles.chatStatus}>online</div>
                             </div>
                         </div>
                     </Link>

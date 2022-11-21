@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectGames, selectTestGames } from "../../redux/selectors";
 import { ApiService } from "../../api/ApiService";
 import { GamesModel } from "../../models/gamesModel";
+import CircleOfLoading from "../../components/circleOfLoading/circleOfLoading";
 
 export default function GameItemPage() {
   const [subCategories, setSubCategories] = useState([]);
@@ -37,9 +38,9 @@ export default function GameItemPage() {
   );
  
   const activeCategory:any = allCategories.find((el) => {return pathname.includes(el.slug.replace(/\s+/g, "").toLowerCase())})
-  const categoryServices = allServices.filter((el) => el.category === activeCategory.id)
+  const categoryServices:any = allServices.filter((el) => el.category === activeCategory.id)
   
-  console.log(categoryServices);
+  
   
   const getCategories = async () => {
     const data = await api.getCategories(itemGame.id);
@@ -69,7 +70,7 @@ export default function GameItemPage() {
         <Card game={itemGame} activeCategory={activeCategory} categories={allCategories}  />
         <Switch>
           <Route path={`${GAMES_URL}/${itemGame.title}/${activeCategory?.slug || "all"}`} exact>
-            <Table categories={allCategories} activeCategory={activeCategory} items={kinahMock} game={itemGame.title} />
+            <Table categories={allCategories} activeCategory={activeCategory} items={categoryServices} game={itemGame.title} />
           </Route>
           {/* {tags.en.split(',').map((t, index) => {
                         return <Route key={index} path={`${GAMES_URL}/${item.name}/${t.replace(/\s+/g, '').toLowerCase()}`}>
@@ -81,6 +82,6 @@ export default function GameItemPage() {
       </div>
     );
   } else {
-    return <div style={{color:"white"}}>круг с загрузкой</div>;
+    return <CircleOfLoading/>
   }
 }

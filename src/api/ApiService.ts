@@ -6,6 +6,7 @@ import { UserLogInCredentials } from "../models/userLogInCredentials";
 import { UserRegistrationCredentials } from "../models/userRegistrationCredentials";
 import { SellerExistCredential } from "../models/sellerExistCredential";
 import { Service } from "../models/service";
+import { CommentCredential } from "../models/commentCredential";
 
 export class ApiService {
 
@@ -179,7 +180,33 @@ export class ApiService {
       })
       .catch(error => console.log(error))
   }
-  
+  //seller
+  async getSellerById(id:number) {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/all_sellers/${id}/`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async getCommentsToSeller(id:number) {
+    console.log(id);
+    
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/comments?seller=${id}`)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
+  async postCommentsToSeller(commentCredentials:CommentCredential) {
+    return axios.post(`https://alexeygrinch.pythonanywhere.com/api/comments/`,commentCredentials)
+      .then((res) => {
+        const data = res.data
+        return data;
+      })
+      .catch(error => console.log(error))
+  }
 
   //another
   async getCookiePolicy() {

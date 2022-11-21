@@ -41,7 +41,14 @@ export type CardProps = {
     description: string;
   };
 };
-
+type SubCat = {
+  title:string
+  description:string
+}
+type DropdownSubCat = {
+  value:string
+  label:string
+}
 export default function Card({ categories, game, activeCategory }: CardProps) {
   const ref = useRef<HTMLFormElement>(null);
   const apiService = new ApiService();
@@ -49,8 +56,8 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const [getOptionsSubcat, setGetOptionsSubcat] = useState(null);
-  const [sendAllSubcatOffer, setSendAllSubcatOffer] = useState([]);
+  const [getOptionsSubcat, setGetOptionsSubcat] = useState<DropdownSubCat | null>(null);
+  const [sendAllSubcatOffer, setSendAllSubcatOffer] = useState<SubCat[]>([]);
 
   // const [sendCategoryOffer, setSendCategoryOffer] = useState("");
   const [sendTitleOffer, setSendTitleOffer] = useState("");
@@ -102,20 +109,17 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
     };
   });
   useMemo(() => {
-    //@ts-ignore
-    const _getOptionsSubcat = {title:getOptionsSubcat?.value, description:getOptionsSubcat?.label}
-    const data: { title: string; description: string }[] =
-      //@ts-ignore
+    
+    const _getOptionsSubcat:SubCat = {title:getOptionsSubcat?.value ?? "", description:getOptionsSubcat?.label ?? ""}
+    const data: SubCat[] =
+      
       sendAllSubcatOffer.filter((i) => i.title !== _getOptionsSubcat.title) ||
       [];
     if (_getOptionsSubcat.title) {
       data.push(_getOptionsSubcat);
-      setSendAllSubcatOffer([]);
     }
-    
-    //@ts-ignore
+    console.log(data);
     setSendAllSubcatOffer(data);
-
   }, [getOptionsSubcat]);
   const sendServiceOffer = async (dataPostServices: Service) => {
    const data = await apiService.postServices(dataPostServices);
@@ -125,19 +129,18 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
   const handleSubmitOffer = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-      
+    
       
       const dataOffer = {
         detail_description: sendDescriptionOffer,
         short_description: sendTitleOffer,
-        seller: dataUser.id,
+        seller: {username:dataUser.username},
         category: activeCategory?.id,
         price: sendPriceOffer,
         additional: sendAllSubcatOffer,
       };
       console.log(dataOffer);
       sendServiceOffer(dataOffer)
-      setSendAllSubcatOffer([]);
       setModalVisible(false);
       setSendPriceOffer("")
       setSendDescriptionOffer("")
@@ -155,9 +158,9 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
   const openModal = () => {
     if (dataUser.email.length < 1) {
       setAuth(true);
-      console.log("openModal");
     } else {
       setModalVisible(true);
+      setSendAllSubcatOffer([]);
     }
   };
 

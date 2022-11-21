@@ -7,7 +7,7 @@ export class Category {
         description: string,
         title: string,
         slug: string,
-        title_column:{title : string, description:string}[]
+        title_column:{title : string, description:string}[],
     ) { }
 }
 
