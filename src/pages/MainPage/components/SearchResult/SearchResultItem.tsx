@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GAMES_URL } from "../../../../utils/links";
 import { ApiService } from "../../../../api/ApiService";
 import { useEffect, useState } from "react";
+import CircleOfLoading from "../../../../components/circleOfLoading/circleOfLoading";
 
 // export type SearchResultItemProps = {
 //     id: string;
@@ -10,6 +11,9 @@ import { useEffect, useState } from "react";
 //     name: string;
 //     tags: {ru: string, en: string}
 // }
+type Tag = {
+slug: string, title: string, id: number
+}
 export type SearchResultItemProps = {
   id: number;
   image_of_game: string;
@@ -22,7 +26,7 @@ export default function SearchResultItem({
   title,
 }: SearchResultItemProps) {
   const [data, setData] = useState(null);
-  const [tag, setTag] = useState([{ slug: "", title: "", id: 0 }]);
+  const [tag, setTag] = useState<Tag[]>();
   const api = new ApiService();
 
   const getData = async () => {
@@ -43,27 +47,38 @@ export default function SearchResultItem({
         className={styles.itemImg}
         alt="avatar"
       />
-      <div>
-        <Link
+      <div className={styles.itemLinks}>
+        {
+          tag 
+          ? <Link
+        
           to={{ pathname: `${GAMES_URL}/${title}/${tag[0].slug}` }}
           className={styles.itemName}>
           {title}
         </Link>
+        : <div></div>
+        }
+        
 
         {/* {
                         tags.en.split(',').map((tag, index, arr) => (
                             <Link to={{pathname: `${GAMES_URL}/${title}/${tag.replace(/\s+/g, '').toLowerCase()}`}} key={index}>{tags.ru.split(',')[index]}{index !== (arr.length - 1)  && ', '}</Link>
                         ))
                     } */}
-        {tag.map((tag) => {
+    <div  className={styles.itemTags}>
+         {tag
+         ? tag.map((tag) => {
           return (
-            <div key={tag.id} className={styles.itemTags}>
-              <Link to={{ pathname: `${GAMES_URL}/${title}/${tag.slug.replace(/\s+/g, '').toLowerCase()}` }}>
+            
+              <Link key={tag.id} to={{ pathname: `${GAMES_URL}/${title}/${tag.slug.replace(/\s+/g, '').toLowerCase()}` }}>
                 {tag.title}
               </Link>
-            </div>
+            
           );
-        })}
+        })
+      : <CircleOfLoading/>
+      }
+        </div>
       </div>
     </div>
   );

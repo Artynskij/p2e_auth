@@ -4,13 +4,27 @@ import styles from "./MainPage.module.scss";
 import SearchResultList from "./components/SearchResult/SearchResultList";
 import FAQ from "./components/FAQ/FAQ";
 import Sponsor from "./components/Sponsor/Sponsor";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { lettersMock } from "../../utils/mockData";
 import { useScrollDirection } from "../../hooks/useScrollDirection";
 import { useSelector } from "react-redux";
 import { ApiService } from "../../api/ApiService";
+import Slider from "react-slick";
+import { useLocation } from "react-router-dom";
+import CircleOfLoading from "../../components/circleOfLoading/circleOfLoading";
 // import { selectGames } from '../../redux/selectors';
-
+type MainImg = {
+  title: string, img: string, id: number
+}
+const responsive = [
+  {
+    breakpoint: 1000,
+    settings: {
+      slidesToShow: 1,
+      rows: 2,
+    },
+  },
+];
 export default function MainPage() {
   const letterClick = (item: string) => {
     let element = document.getElementById(item);
@@ -22,7 +36,9 @@ export default function MainPage() {
     });
   };
 
-  const [mainImg, setMainImg] = useState([{title:"", img:"", id:0}]);
+
+  const [mainImg, setMainImg] = useState<MainImg[]>();
+
   const api = new ApiService();
   const funcGetMainImg = async () => {
     const data = await api.getMainImage();
@@ -101,10 +117,25 @@ export default function MainPage() {
 
   return (
     <>
-    {mainImg.map((item) => {
-      return <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${item.img}`} alt={item.title} />
-    })}
-      {/* <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${mainImg[0].img}`} alt={mainImg[0].title} /> */}
+
+      <Slider
+        autoplay={true}
+        autoplaySpeed={2000}
+        slidesToShow={1}
+        dots
+        speed={600}
+        arrows={false}
+        infinite={true}
+        responsive={responsive}>
+
+        {mainImg
+          ? mainImg.map((item) => {
+            return <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${item.img}`} alt={item.title} />
+          })
+          : <CircleOfLoading />}
+
+      </Slider>
+
       <div className={styles.result} id="result">
         <Letters handleClick={letterClick} />
         <div className={styles.resultInner}>
@@ -133,7 +164,7 @@ export default function MainPage() {
           <SearchResultList letter="X" />
           <SearchResultList letter="Y" />
           <SearchResultList letter="Z" />
-          
+
         </div>
       </div>
       <FAQ />

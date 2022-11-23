@@ -18,14 +18,16 @@ export const TableItemName = ({ items, name, enName, setNewFilter, className, fi
 
     const handleFilterItemClick = (filterName: string | null) => {
         setShow(false)
+        console.log("filters");
+        
         if (filterName === null) {
             setNewFilter(prev => {
                 let copy = { ...prev }
                 delete copy[enName]
                 return copy
-            })
+            } )
             return
-        }
+        } 
         setNewFilter(prev => {
             if (prev[enName]) {
                 let copy = { ...prev }
@@ -48,6 +50,7 @@ export const TableItemName = ({ items, name, enName, setNewFilter, className, fi
     
     const handleShowStatus = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setShow(!show)
+        
     }
     const handleDeleteFilter = () => {
         handleFilterItemClick(null)

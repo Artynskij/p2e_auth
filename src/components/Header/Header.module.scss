@@ -217,6 +217,10 @@
     align-items: center;
     gap: 20px;
     padding-top: 15px;
+    &Active {
+        border-color: var(--active)!important;
+        opacity: 1 !important; 
+    }
     a{
         font-family: 'Inter';
         font-size: 14px;

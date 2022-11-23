@@ -190,8 +190,6 @@ export class ApiService {
       .catch(error => console.log(error))
   }
   async getCommentsToSeller(id:number) {
-    console.log(id);
-    
     return axios.get(`https://alexeygrinch.pythonanywhere.com/api/comments?seller=${id}`)
       .then((res) => {
         const data = res.data

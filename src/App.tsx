@@ -121,6 +121,9 @@ function App() {
           <Route path={MAIN_URL} exact>
             <MainPage />
           </Route>
+          <Route path={`/type_game/:type`} exact>
+            <MainPage />
+          </Route>
           <Route path={SERVICE_URL} exact>
             <ServicePage />
           </Route>

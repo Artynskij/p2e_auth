@@ -47,11 +47,14 @@
     }
 
     &Tags{
+        display: flex;
+        flex-wrap: wrap;
         font-weight: 400;
         font-size: 13px;
         line-height: 20px;
 
         a{
+            padding: 2px;
             font-weight: 400;
         font-size: 13px;
         line-height: 20px;  

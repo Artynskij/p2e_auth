@@ -4,17 +4,17 @@ import HistoryItem from './HistoryItem';
 import { useState } from 'react';
 type HistoryProps = {
     userComments: {
-        client:number,
-        description:string,
-        publish_date:string,
-        service_of_seller:number,
-        star:number
+        client: number,
+        description: string,
+        publish_date: string,
+        service_of_seller: number,
+        star: number
     }[]
-    
+
 }
 const itemsPerPortion = 10
 
-export const HistoryReview = ( {userComments}:HistoryProps) => {
+export const HistoryReview = ({ userComments }: HistoryProps) => {
     const [portion, setPortion] = useState(1)
     const handeNewPortion = () => {
         setPortion(prev => prev + 1)
@@ -33,9 +33,14 @@ export const HistoryReview = ( {userComments}:HistoryProps) => {
                 <HistoryItem key={index} {...item} />
             ))
         }
-        <div className={styles.actions}>
-            {items <= historyReviewMock.length && <button className={styles.action} onClick={handeNewPortion}>Показать ещё</button>}
-            {portion !== 1 && <button className={styles.action} onClick={handleClearPortion}>Спрятать</button>}
-        </div>
+        {itemsToRender.length > 10
+            ?   <div className={styles.actions}>
+                    {items <= historyReviewMock.length && <button className={styles.action} onClick={handeNewPortion}>Показать ещё</button>}
+                    {portion !== 1 && <button className={styles.action} onClick={handleClearPortion}>Спрятать</button>}
+                </div>
+            : <div></div>
+        }
+
+
     </div>
 }

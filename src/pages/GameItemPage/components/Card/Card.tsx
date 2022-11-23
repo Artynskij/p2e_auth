@@ -42,12 +42,12 @@ export type CardProps = {
   };
 };
 type SubCat = {
-  title:string
-  description:string
+  title: string
+  description: string
 }
 type DropdownSubCat = {
-  value:string
-  label:string
+  value: string
+  label: string
 }
 export default function Card({ categories, game, activeCategory }: CardProps) {
   const ref = useRef<HTMLFormElement>(null);
@@ -67,7 +67,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
   const [auth, setAuth] = useState(false);
 
   const dataUser = useSelector(selectDataUser);
-  
+
 
   //субкатегории
   const mockSubcat = [
@@ -76,7 +76,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
     { title: "Тип", choices: ["Рак", "Дебил", "Имба"] },
   ];
 
-  // let allSubCat:any=[]
+
 
   //чтобы стать продавцом
   const sendSellerExist = async (dataSeller: any) => {
@@ -88,7 +88,6 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
       const validNumber = phoneNumber.replace(/\D/g, "").replace(/^7/, "8");
       const dataSeller = {
         username: dataUser.username,
-        phone_number: validNumber,
       };
       sendSellerExist(dataSeller);
       alert("заявка принята");
@@ -109,32 +108,33 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
     };
   });
   useMemo(() => {
-    
-    const _getOptionsSubcat:SubCat = {title:getOptionsSubcat?.value ?? "", description:getOptionsSubcat?.label ?? ""}
+
+    const _getOptionsSubcat: SubCat = { title: getOptionsSubcat?.value ?? "", description: getOptionsSubcat?.label ?? "" }
     const data: SubCat[] =
-      
+
       sendAllSubcatOffer.filter((i) => i.title !== _getOptionsSubcat.title) ||
       [];
     if (_getOptionsSubcat.title) {
       data.push(_getOptionsSubcat);
     }
-    console.log(data);
+    // console.log(data);
     setSendAllSubcatOffer(data);
   }, [getOptionsSubcat]);
   const sendServiceOffer = async (dataPostServices: Service) => {
-   const data = await apiService.postServices(dataPostServices);
-   console.log(data);
-   
+    const data = await apiService.postServices(dataPostServices);
+    //  console.log(data);
+
   };
+
   const handleSubmitOffer = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-    
-      
+
+
       const dataOffer = {
         detail_description: sendDescriptionOffer,
         short_description: sendTitleOffer,
-        seller: {username:dataUser.username},
+        seller: dataUser.id,
         category: activeCategory?.id,
         price: sendPriceOffer,
         additional: sendAllSubcatOffer,
@@ -146,10 +146,13 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
       setSendDescriptionOffer("")
     },
     [
-      sendPriceOffer,
-      sendTitleOffer,
+      sendServiceOffer,
       sendDescriptionOffer,
-      getOptionsSubcat,
+      sendTitleOffer,
+      dataUser,
+      activeCategory,
+      sendPriceOffer,
+      sendAllSubcatOffer,
     ]
   );
   //
@@ -180,7 +183,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
             className={styles.form__send_number_disabled}
             type="text"
           />
-           <input
+          <input
             value={activeCategory?.title}
             disabled
             className={styles.form__send_number_disabled}
@@ -317,7 +320,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
                   pathname.includes(
                     cat.slug.replace(/\s+/g, "").toLowerCase()
                   ) ||
-                  (pathname === `${GAMES_URL}/${game.title}` && game.id === 0)
+                    (pathname === `${GAMES_URL}/${game.title}` && game.id === 0)
                     ? `${styles.item} ${styles.itemActive}`
                     : styles.item
                 }

@@ -122,60 +122,69 @@ export default function Table(props: TableProps) {
       setFilters((prev) => ({ ...prev, minLvl }));
     }
   };
- console.log(items);
+ 
  
   
   useEffect(() => {
-    // let filterKeys = Object.keys(filters) as TableItemKeys[];
-    // let newItems = items.map((item) => {
-    // return  filterKeys.filter((key) => {
+    let filterKeys = Object.keys(filters) as TableItemKeys[];
+    // let newItems = items.filter((item) => {
+    // const test = filterKeys.map((key) => {
         
-    //    const test = item.additional[Number(key)].title!==filters[key]
-    //     return  console.log(test),console.log(item.additional[Number(key)].title);
-    //     ;
-        
-    //     // return console.log(filters[key]), console.log(key);
-        
-        
+    //    return item.additional[Number(key)].description!==filters[key] 
+
     //   }) 
  
-
+ 
+    //   return test.includes(false) ? item!==item : item;
       
       
-    //   // return filterKeys.every((k) => {
-    //   //   //@ts-ignore
-    //   //   if (k.includes("Lvl")) {
-    //   //     if (k === "maxLvl") {
-    //   //       if (filters.minLvl !== undefined) {
-    //   //         //@ts-ignore
-    //   //         return (
-    //   //           i["lvl"] <= (Number(filters.maxLvl) || 999) &&
-    //   //           i["lvl"] >= (Number(filters.minLvl) || 0)
-    //   //         );
-    //   //       } else {
-    //   //         //@ts-ignore
-    //   //         return i["lvl"] <= (Number(filters.maxLvl) || 999);
-    //   //       }
-    //   //     } else {
-    //   //       if (filters.maxLvl !== undefined) {
-    //   //         //@ts-ignore
-    //   //         return (
-    //   //           i["lvl"] >= (Number(filters.minLvl) || 0) &&
-    //   //           i["lvl"] <= (Number(filters.maxLvl) || 999)
-    //   //         );
-    //   //       } else {
-    //   //         //@ts-ignore
-    //   //         return i["lvl"] >= (Number(filters.minLvl) || 0);
-    //   //       }
-    //   //     }
-    //   //   } else {
-    //   //     //@ts-ignore
-    //   //     return i[k] === filters[k];
-    //   //   }
-    //   // });
+      
+      
+      
+      
+    // //   // return filterKeys.every((k) => {
+    // //   //   //@ts-ignore
+    // //   //   if (k.includes("Lvl")) {
+    // //   //     if (k === "maxLvl") {
+    // //   //       if (filters.minLvl !== undefined) {
+    // //   //         //@ts-ignore
+    // //   //         return (
+    // //   //           i["lvl"] <= (Number(filters.maxLvl) || 999) &&
+    // //   //           i["lvl"] >= (Number(filters.minLvl) || 0)
+    // //   //         );
+    // //   //       } else {
+    // //   //         //@ts-ignore
+    // //   //         return i["lvl"] <= (Number(filters.maxLvl) || 999);
+    // //   //       }
+    // //   //     } else {
+    // //   //       if (filters.maxLvl !== undefined) {
+    // //   //         //@ts-ignore
+    // //   //         return (
+    // //   //           i["lvl"] >= (Number(filters.minLvl) || 0) &&
+    // //   //           i["lvl"] <= (Number(filters.maxLvl) || 999)
+    // //   //         );
+    // //   //       } else {
+    // //   //         //@ts-ignore
+    // //   //         return i["lvl"] >= (Number(filters.minLvl) || 0);
+    // //   //       }
+    // //   //     }
+    // //   //   } else {
+    // //   //     //@ts-ignore
+    // //   //     return i[k] === filters[k];
+    // //   //   }
+    // //   // });
     // });
+     const newItems = filterKeys.map((key) => {
+      
+      
+      const test =  props.items.filter((item) => {
+          return item.additional[Number(key)].description===filters[key] 
+        })
+      
+       return test
+
+      }) 
     
-    // console.log(newItems);
     // for (let index = 0; index < filterKeys.length; index++) {
     //   const currentTableType = filterKeys[index];
     //   props.items.forEach((item) =>
@@ -187,8 +196,16 @@ export default function Table(props: TableProps) {
     //   //   .sort((a, b) => a.order - b.order)
     //   // );
     // }
-    // setItems(newItems);
+    if(newItems[0]) {
+      setItems(newItems[0]) 
+    } else {
+      setItems(props.items) 
+    }
+     
+    
   }, [filters]);
+  
+  
 //   const getUniqeItems = (filterKey: TableItemKeys) => {
 //     //@ts-ignore
 //     return props.items
