@@ -16,4 +16,7 @@ export const selectDataUser = createDraftSafeSelector(selectSelf, state => state
 export const selectGames = createDraftSafeSelector(selectSelf, state => state.games.games);
 export const selectTestGames = createDraftSafeSelector(selectSelf, state => state.gamesTest.gamesTest);
 
+// language
+
+export const selectLanguage = createDraftSafeSelector(selectSelf, state => state.language.ln);
 

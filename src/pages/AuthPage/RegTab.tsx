@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import { ApiService } from '../../api/ApiService';
 import { UserRegistrationCredentials } from '../../models/userRegistrationCredentials';
 import { Redirect } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectLanguage } from '../../redux/selectors'
 
 export default function RegTab() {
     const [toastifyStatus, setToastifyStatus] = useState<'success' | 'error'>('success')
@@ -20,6 +22,8 @@ export default function RegTab() {
     const [TOUR, setTOUR] = useState<'true' | 'false'>('false') //terms of the user afteement
     const [registered, setRegistered ] = useState(false)
     const ref = useRef<HTMLFormElement>(null)
+
+    const language = useSelector(selectLanguage)
 
     const [captchaVerify, setCaptchaVerify] = useState(true)
     const captchaRef = useRef<any>(null)
@@ -37,8 +41,9 @@ export default function RegTab() {
         if(response.status===201) {
            setRegistered(true)
         } else {
+            const textToastFalseData = language === "rus" ? "Пользователь с таким именем или почтой уже существует" : language === "eng" ? "A user with the same name or email already exists" : 'chinese'
             setToastifyStatus('error')
-            toast('Пользователь с таким именем или почтой уже существует')
+            toast(textToastFalseData)
         }
     }
 
@@ -76,17 +81,20 @@ export default function RegTab() {
 
             userRegistration(fullUserRegistrationCredentials)
         } else {
+            const textCaptchaFalse = language === "rus" ? "Вы должны пройти капчу" : language === "eng" ? "You have to pass the captcha" : 'chinese'
+            const textCaptchaFalseOfElse = language === "rus" ? "Что-то пошло не так..." : language === "eng" ? "Something went wrong..." : 'chinese'
+            const textToastFalseData = language === "rus" ? "Неправильная почта или пароль" : language === "eng" ? "Incorrect email or password" : 'chinese'
             setErr(
                 (!nResp.status && nResp.text) ||
                 (!pResp.status && pResp.text) ||
                 (!ptResp.status && ptResp.text) ||
                 (!mResp.status && mResp.text) ||
                 (!TOURResp.status && TOURResp.text) ||
-                (!captchaVerify && 'Вы должны пройти капчу') ||
-                'Что-то пошло не так...'
+                (!captchaVerify && textCaptchaFalse) ||
+                textCaptchaFalseOfElse
             )
             setToastifyStatus('error')
-            toast('Неправильная почта или пароль')
+            toast(textToastFalseData)
         }
     }, [name, checkSubmit, mail, passT, pass, TOUR, captchaVerify])
 if(registered) return <Redirect to={"/login"}/>
@@ -97,7 +105,7 @@ if(registered) return <Redirect to={"/login"}/>
             <InputIcon
                 value={name}
                 onChange={setName}
-                placeholder={'Имя пользователя'}
+                placeholder={language === "rus" ? "Имя пользователя" : language === "eng" ? "Nickname" : 'chinese'}
             // icon={user}
             />
             <InputIcon
@@ -110,14 +118,14 @@ if(registered) return <Redirect to={"/login"}/>
             <InputIcon
                 value={pass}
                 onChange={setPass}
-                placeholder={'Пароль'}
+                placeholder={language === "rus" ? "Пароль" : language === "eng" ? "Password" : 'chinese'}
                 // icon={lock}
                 type='password'
             />
             <InputIcon
                 value={passT}
                 onChange={setPassT}
-                placeholder={'Подтвердите пароль'}
+                placeholder={language === "rus" ? "Подтвердите пароль" : language === "eng" ? "Confirm password" : 'chinese'}
                 // icon={lock}
                 type='password'
             />
@@ -126,7 +134,9 @@ if(registered) return <Redirect to={"/login"}/>
                 <label htmlFor='radio' style={{ fontSize: 10 }}>Я прочитал(а) и принимаю условия пользовательсткого соглашения</label>
             </div>
             {/* <Repatcha ref={captchaRef} onChange={handleCaptchaVerify} size={window.innerWidth <= 400 ? 'compact' : 'normal'} theme='dark' hl='ru' sitekey={'6LcF4-whAAAAAMUm1K7CQkl04fG7f2yOxDPzmeaQ'} /> */}
-            <button className={styles.btn} style={{ marginBottom: 0 }}>Регистрация</button>
+            <button className={styles.btn} style={{ marginBottom: 0 }}>
+                {language === "rus" ? "Регистрация" : language === "eng" ? "Registration" : 'chinese'}
+            </button>
             <Toastify status={toastifyStatus} />
         </form>
     )

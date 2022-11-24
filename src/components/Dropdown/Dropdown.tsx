@@ -5,6 +5,7 @@ import makeAnimated from "react-select/animated";
 
 
 export const Dropdown = ({name, options, setSelectValue,isMulti }: any) => {
+  
   const onChange = (newValue:any): void => {
    const selectValue = {
     value:name,

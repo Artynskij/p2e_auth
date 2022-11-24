@@ -3,7 +3,7 @@ import { lettersMock } from '../../../../utils/mockData'
 import styles from './SearchResult.module.scss'
 import SearchResultItem from './SearchResultItem'
 import { useSelector } from 'react-redux';
-import { selectGames, selectSearchItems, selectTestGames } from '../../../../redux/selectors';
+import { selectGames, selectLanguage, selectSearchItems, selectTestGames } from '../../../../redux/selectors';
 import { ApiService } from '../../../../api/ApiService';
 import { useLocation } from 'react-router-dom';
 
@@ -41,12 +41,18 @@ export default function SearchResultList({ letter }: SearchResultListProps) {
 
 
     const allGames: Game[] = useSelector(selectTestGames)
+    //@ts-ignore
     
-    const gamesFilter = allGames.filter((i: any) => i.title.slice(0, 1) === letter)
-    const gamesFilterType = allGames.filter((i: any) => i.title.slice(0, 1) === letter).filter(game => `typegame${game.type_of_games.title}` === location.pathname.replace(/[^a-zа-яё0-9]/gi, ''))
+    const gamesFilter = allGames.filter((i: any) => i.title.slice(0, 1).toUpperCase() === letter)
+    const gamesFilterType = allGames.filter((i: any) => i.title.slice(0, 1).toUpperCase() === letter).filter(game => `typegame${game.type_of_games.title.toLowerCase()}` === location.pathname.replace(/[^a-zа-яё0-9]/gi, ''))
+    const language = useSelector(selectLanguage)
+    
     
 
-
+    // console.log(allGames.filter((i: any) => i.title.toLowerCase().slice(0, 1) === letter));
+    
+    
+    
 
 
 
@@ -62,8 +68,8 @@ export default function SearchResultList({ letter }: SearchResultListProps) {
                 }
 
                 {location.pathname.replace(/[^a-zа-яё0-9]/gi, '') 
-                    ? gamesFilterType.length === 0 &&<h4 className={styles.notFound}>Не найдено</h4> 
-                    : gamesFilter.length === 0 && <h4 className={styles.notFound}>Не найдено</h4>
+                    ? gamesFilterType.length === 0 &&<h4 className={styles.notFound}>{language==="rus" ? "Не найдено" : language==="eng" ? "Not found" : "China"}</h4> 
+                    : gamesFilter.length === 0 && <h4 className={styles.notFound}>{language==="rus" ? "Не найдено" : language==="eng" ? "Not found" : "China"}</h4>
                 }
             </div>
         </div>

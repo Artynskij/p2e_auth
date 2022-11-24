@@ -4,6 +4,8 @@ import { GAMES_URL } from "../../../../utils/links";
 import { ApiService } from "../../../../api/ApiService";
 import { useEffect, useState } from "react";
 import CircleOfLoading from "../../../../components/circleOfLoading/circleOfLoading";
+import { useSelector } from "react-redux";
+import { selectLanguage } from "../../../../redux/selectors";
 
 // export type SearchResultItemProps = {
 //     id: string;
@@ -11,6 +13,7 @@ import CircleOfLoading from "../../../../components/circleOfLoading/circleOfLoad
 //     name: string;
 //     tags: {ru: string, en: string}
 // }
+
 type Tag = {
 slug: string, title: string, id: number
 }
@@ -25,15 +28,18 @@ export default function SearchResultItem({
   image_of_game,
   title,
 }: SearchResultItemProps) {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const [tag, setTag] = useState<Tag[]>();
   const api = new ApiService();
+  const language = useSelector(selectLanguage)
 
   const getData = async () => {
-    const data = await api.getCategories(id);
-    setData(data);
-    setTag(data);
+    const data = await api.getCategories(id, language);
+    // setData(data);
+    const langCat = data[0].category
+    setTag(langCat);
   };
+  
   
 
   useEffect(() => {

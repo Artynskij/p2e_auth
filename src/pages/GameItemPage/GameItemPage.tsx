@@ -13,7 +13,7 @@ import { ExtraText } from "./components/ExtraText/ExtraText";
 import { Route, Switch, useLocation } from "react-router-dom";
 import { GAMES_URL } from "../../utils/links";
 import { useDispatch, useSelector } from "react-redux";
-import { selectGames, selectTestGames } from "../../redux/selectors";
+import { selectGames, selectLanguage, selectTestGames } from "../../redux/selectors";
 import { ApiService } from "../../api/ApiService";
 import { GamesModel } from "../../models/gamesModel";
 import CircleOfLoading from "../../components/circleOfLoading/circleOfLoading";
@@ -26,7 +26,7 @@ export default function GameItemPage() {
   const [allServices, setAllServices] = useState([{category:0}])
   const api = new ApiService();
   const games = useSelector(selectGames);
-
+const language = useSelector(selectLanguage)
   const { pathname } = useLocation();
  
   const itemGame: GamesModel = useMemo(
@@ -43,10 +43,10 @@ export default function GameItemPage() {
   
   
   const getCategories = async () => {
-    const data = await api.getCategories(itemGame.id);
-    setAllCategories(data);
-    
-    const { title_column } = data
+    const data = await api.getCategories(itemGame.id, language);
+    const langCat = data[0].category
+    setAllCategories(langCat);
+    const { title_column } = langCat
     setSubCategories(title_column)
   };
   const getServices = async () => {

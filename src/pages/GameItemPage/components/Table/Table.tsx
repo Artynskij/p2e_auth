@@ -12,21 +12,23 @@ import { useLocation } from "react-router-dom";
 import { useBreadcrumbs } from "./../../../../hooks/useBreadcrumbs";
 import { GAMES_URL } from "./../../../../utils/links";
 import { BreadcrumbsItemType } from "../../../../redux/reducers/breadcrumbsReducer";
+import { useSelector } from "react-redux";
+import { selectLanguage } from "../../../../redux/selectors";
 type Service = {
-  
-    id: number;
-    short_description: string;
-    detail_description: string;
-    seller: number;
-    price: string;
-    additional: {
-      title: string;
-      description: string;
-      order:number
-      
-    }[];
-    category: number;
-  
+
+  id: number;
+  short_description: string;
+  detail_description: string;
+  seller: number;
+  price: string;
+  additional: {
+    title: string;
+    description: string;
+    order: number
+
+  }[];
+  category: number;
+
 }
 export type TableProps = {
   game: string;
@@ -61,10 +63,11 @@ export default function Table(props: TableProps) {
   const { pathname } = useLocation();
   const [filters, setFilters] = useState<TableFiltersType>(
     {} as TableFiltersType
-    );
-    const [items, setItems] = useState<Service[]>(props.items);
+  );
+  const [items, setItems] = useState<Service[]>(props.items);
+  const language = useSelector(selectLanguage)
 
-//сортировка Субкатегорий 
+  //сортировка Субкатегорий 
   const orderLogic = () => {
     const tableHeaderTypes = props.activeCategory.title_column.map(
       (h) => h.title
@@ -73,28 +76,28 @@ export default function Table(props: TableProps) {
       const currentTableType = tableHeaderTypes[index];
       props.items.forEach((item) =>
         item.additional.filter((h) => h.title === currentTableType)
-        .forEach(a => a.order=index)
+          .forEach(a => a.order = index)
       );
       // props.items.map((item) =>
       //   item.additional.filter((h) => h.title === currentTableType)
       //   .sort((a, b) => a.order - b.order)
       // );
     }
-    
-   const orderLogic = props.items.map((h) => {
-    h.additional.sort((a,b) => a.order - b.order)
-    return h
-   })
+
+    const orderLogic = props.items.map((h) => {
+      h.additional.sort((a, b) => a.order - b.order)
+      return h
+    })
     setItems(orderLogic)
-    
-    
+
+
   };
-  
-  
-  
+
+
+
   useEffect(() => {
     orderLogic()
-  },[props.items])
+  }, [props.items])
   // let category = pathname.includes(`${props.activeCategory?.slug}`) ? {name: props.activeCategory?.title, link: pathname} : pathname.includes('all') ? {name: 'All', link: pathname} : pathname.includes('akkaunty') ? {name: 'Предметы', link: pathname} : pathname.includes('services') ? {name: 'Услуги', link: pathname} : null
   const category: BreadcrumbsItemType = {
     name: props.activeCategory.title,
@@ -110,7 +113,7 @@ export default function Table(props: TableProps) {
   // );
   const [maxLvl, setMaxLvl] = useState("");
   const [minLvl, setMinLvl] = useState("");
-  
+
   // const [categorTrue, setMinLvl] = useState('')
 
   const handleLvlBlur = (type: "max" | "min") => {
@@ -122,26 +125,26 @@ export default function Table(props: TableProps) {
       setFilters((prev) => ({ ...prev, minLvl }));
     }
   };
- 
- 
-  
+
+
+
   useEffect(() => {
     let filterKeys = Object.keys(filters) as TableItemKeys[];
     // let newItems = items.filter((item) => {
     // const test = filterKeys.map((key) => {
-        
+
     //    return item.additional[Number(key)].description!==filters[key] 
 
     //   }) 
- 
- 
+
+
     //   return test.includes(false) ? item!==item : item;
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
     // //   // return filterKeys.every((k) => {
     // //   //   //@ts-ignore
     // //   //   if (k.includes("Lvl")) {
@@ -174,17 +177,17 @@ export default function Table(props: TableProps) {
     // //   //   }
     // //   // });
     // });
-     const newItems = filterKeys.map((key) => {
-      
-      
-      const test =  props.items.filter((item) => {
-          return item.additional[Number(key)].description===filters[key] 
-        })
-      
-       return test
+    const newItems = filterKeys.map((key) => {
 
-      }) 
-    
+
+      const test = props.items.filter((item) => {
+        return item.additional[Number(key)].description === filters[key]
+      })
+
+      return test
+
+    })
+
     // for (let index = 0; index < filterKeys.length; index++) {
     //   const currentTableType = filterKeys[index];
     //   props.items.forEach((item) =>
@@ -196,25 +199,26 @@ export default function Table(props: TableProps) {
     //   //   .sort((a, b) => a.order - b.order)
     //   // );
     // }
-    if(newItems[0]) {
-      setItems(newItems[0]) 
+    if (newItems[0]) {
+      setItems(newItems[0])
     } else {
-      setItems(props.items) 
+      setItems(props.items)
     }
-     
-    
+
+
   }, [filters]);
-  
-  
-//   const getUniqeItems = (filterKey: TableItemKeys) => {
-//     //@ts-ignore
-//     return props.items
-//       .filter(
-//         (value, index, self) =>
-//           index === self.findIndex((t) => t[filterKey] === value[filterKey])
-//       )
-//       .map((f) => f[filterKey]);
-//   };
+console.log(props.activeCategory?.title_column[0].choices);
+
+
+  //   const getUniqeItems = (filterKey: TableItemKeys) => {
+  //     //@ts-ignore
+  //     return props.items
+  //       .filter(
+  //         (value, index, self) =>
+  //           index === self.findIndex((t) => t[filterKey] === value[filterKey])
+  //       )
+  //       .map((f) => f[filterKey]);
+  //   };
 
   // const getChoiceServer = (filterKey: TableItemKeys) => {
   //     //@ts-ignore
@@ -243,7 +247,7 @@ export default function Table(props: TableProps) {
               className={styles.headerServer}
               enName={`${i}`}
               name={element.title}
-              items={element.choices}
+              items={element.choices.map((i:any) => i.title_of_choice)}
               filters={filters}
               setNewFilter={setFilters}
             />
@@ -251,24 +255,32 @@ export default function Table(props: TableProps) {
         })}
         {/* <TableItemName className={styles.headerServer} enName='server' name='Сервер' items={getUniqeItems('server')} filters={filters} setNewFilter={setFilters} /> */}
         {/* <TableItemName className={styles.side} enName='side' name='Сторона' items={getUniqeItems('side')} filters={filters} setNewFilter={setFilters} /> */}
-        <div className={styles.desc}>Описание</div>
+        <div className={styles.desc}>
+          {language === "rus" ? "Описание" : language === "eng" ? "Description" : 'chinese'}
+        </div>
         <TableItemName
           className={styles.nik}
           enName="online"
-          name="Ник"
+          name={language === "rus" ? "Ник" : language === "eng" ? "Nickname" : 'chinese'}
           items={["Онлайн", "Оффлайн"]}
           filters={filters}
           setNewFilter={setFilters}
         />
-        <div className={styles.count}>Наличные</div>
-        <div>Цена</div>
+        <div className={styles.count}>
+          {language === "rus" ? "Наличие" : language === "eng" ? "Availability" : 'chinese'}
+        </div>
+        <div>
+          {language === "rus" ? "цена" : language === "eng" ? "Price" : 'chinese'}
+        </div>
       </div>
       <div className={styles.list}>
         {items.map((service) => (
           //@ts-ignore
-          <TableItem category={category} key={service.id} gameTitle={props.game} activeCategory={props.activeCategory}  service={service} />
+          <TableItem category={category} key={service.id} gameTitle={props.game} activeCategory={props.activeCategory} service={service} />
         ))}
-        {items.length === 0 && <h4 className={styles.notFound}>Не найдено</h4>}
+        {items.length === 0 && <h4 className={styles.notFound}>
+          {language === "rus" ? "Не найдено" : language === "eng" ? "Not Found" : 'chinese'}
+        </h4>}
       </div>
     </div>
   );

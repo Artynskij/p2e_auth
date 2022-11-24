@@ -9,7 +9,7 @@ import { Service } from "../models/service";
 import { CommentCredential } from "../models/commentCredential";
 
 export class ApiService {
-
+ 
   //auth
   async userLogin(userCredentials: UserLogInCredentials) {
     return axios.post(`https://alexeygrinch.pythonanywhere.com/api/login/`, userCredentials)
@@ -56,7 +56,8 @@ export class ApiService {
 
   }
   async sellerExist(sellerExistCredential: SellerExistCredential) {
-    axios.post(`https://alexeygrinch.pythonanywhere.com/api/is_seller_for_exist/`, sellerExistCredential)
+    
+    axios.post(`https://alexeygrinch.pythonanywhere.com/api/is_seller_for_exist/}`, sellerExistCredential)
       .then(res => console.log(res))
       .catch(error => console.log(error))
 
@@ -108,7 +109,7 @@ export class ApiService {
       })
       .catch(error => console.log(error))
   } 
-
+ 
 
   //about games
   async getGames() {
@@ -119,25 +120,25 @@ export class ApiService {
       })
       .catch(error => console.log(error))
   }
-  async getCategories(id:number) {
-    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/categories?game=${id}`)
+  async getCategories(id:number, ln:string) {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/categories?game=${id}&ln=${ln}`)
       .then((res) => {
         const data = res.data
         return data;
       })
       .catch(error => console.log(error))
   }
-  async getTitlesForCategories() {
-    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/titles_for_categories`)
-      .then((res) => {
-        const data = res.data
-        return data;
-      })
-      .catch(error => console.log(error))
-  }
+  // async getTitlesForCategories() {
+  //   return axios.get(`https://alexeygrinch.pythonanywhere.com/api/titles_for_categories`)
+  //     .then((res) => {
+  //       const data = res.data
+  //       return data;
+  //     })
+  //     .catch(error => console.log(error))
+  // }
 
-  async getTypeOfGames() {
-    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/type_of_games`)
+  async getTypeOfGames(ln:string) {
+    return axios.get(`https://alexeygrinch.pythonanywhere.com/api/type_of_games/?ln=${ln}`)
       .then((res) => {
         const data = res.data
         return data;

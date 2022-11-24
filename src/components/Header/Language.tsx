@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addLanguage } from '../../redux/reducers/languageReducer'
 import styles from './Header.module.scss'
 
 export default function Language(){
-    const [lang, setLang] = useState('Ru')
+    const dispatch = useDispatch()
+    const [lang, setLang] = useState('rus')
     const [show, setShow] = useState(false)
     const handleClick = (lang : string) => {
         setLang(lang)
+        const testLan = {ln:lang}
+        dispatch(addLanguage(testLan))
         setShow(false)
     }
+    
 
     useEffect(() => {
         const handle = (e: Event) => {
@@ -29,9 +35,9 @@ export default function Language(){
             <div className={styles.langActive} onClick={() => setShow(!show)}>{lang} <span style={{width: 10, display: 'inline-block'}}>{show ? '-' : "+"}</span></div>
             {show &&
             <div className={styles.langContainer}>
-                <div className={styles.langItem} onClick={() => handleClick('En')}>English</div>
-                <div className={styles.langItem} onClick={() => handleClick('Ru')}>Russian</div>
-                <div className={styles.langItem} onClick={() => handleClick('Ch')}>Chines</div>
+                <div className={styles.langItem} onClick={() => handleClick('eng')}>English</div>
+                <div className={styles.langItem} onClick={() => handleClick('rus')}>Russian</div>
+                <div className={styles.langItem} onClick={() => handleClick('chi')}>Chines</div>
             </div>}
         </div>
     )

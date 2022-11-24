@@ -142,7 +142,7 @@ export default function MainPage() {
           <SearchResultList letter="A" />
           <SearchResultList letter="B" />
           <SearchResultList letter="C" />
-          <SearchResultList letter="D" />
+          {/* <SearchResultList letter="D" />
           <SearchResultList letter="F" />
           <SearchResultList letter="G" />
           <SearchResultList letter="H" />
@@ -163,7 +163,7 @@ export default function MainPage() {
           <SearchResultList letter="W" />
           <SearchResultList letter="X" />
           <SearchResultList letter="Y" />
-          <SearchResultList letter="Z" />
+          <SearchResultList letter="Z" /> */}
 
         </div>
       </div>

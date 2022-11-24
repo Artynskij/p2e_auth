@@ -18,6 +18,7 @@ export const getGamesTest = createAsyncThunk<any, undefined, { rejectValue: stri
         const data = await api.getGames()
 
 
+
         dispatch(setGamesTest(data))
     }
 )

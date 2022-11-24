@@ -11,7 +11,7 @@ import { GAMES_URL } from "../../../../utils/links";
 import styles from "./Card.module.scss";
 import { Modal } from "../../../../components/Modal/Modal";
 import { useSelector } from "react-redux";
-import { selectDataUser } from "../../../../redux/selectors";
+import { selectDataUser, selectLanguage } from "../../../../redux/selectors";
 import { ApiService } from "../../../../api/ApiService";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Service } from "../../../../models/service";
@@ -67,19 +67,20 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
   const [auth, setAuth] = useState(false);
 
   const dataUser = useSelector(selectDataUser);
+  const language = useSelector(selectLanguage)
 
 
   //субкатегории
-  const mockSubcat = [
-    { title: "Сервер", choices: ["Север", "Юг"] },
-    { title: "Автиность", choices: ["Онлайн", "Оффлайн"] },
-    { title: "Тип", choices: ["Рак", "Дебил", "Имба"] },
-  ];
+  // const mockSubcat = [
+  //   { title: "Сервер", choices: ["Север", "Юг"] },
+  //   { title: "Автиность", choices: ["Онлайн", "Оффлайн"] },
+  //   { title: "Тип", choices: ["Рак", "Дебил", "Имба"] },
+  // ];
 
 
 
   //чтобы стать продавцом
-  const sendSellerExist = async (dataSeller: any) => {
+  const sendSellerExist = async (dataSeller: {username:string, phone_number:string}) => {
     await apiService.sellerExist(dataSeller);
   };
   const handleSubmitIsSeller = useCallback(
@@ -88,25 +89,26 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
       const validNumber = phoneNumber.replace(/\D/g, "").replace(/^7/, "8");
       const dataSeller = {
         username: dataUser.username,
+        phone_number:validNumber
       };
       sendSellerExist(dataSeller);
-      alert("заявка принята");
+      const alertMessageSeller = language === "rus" ? "заявка принята" : language === "eng" ? "application accepted" : "китайский"
+      alert(alertMessageSeller);
       setModalVisible(false);
     },
     [phoneNumber, dataUser]
   );
   //отправить форму сервиса
-  // const optionsToCategories = categories.map((i) => {
-  //   return { value: i.id, label: i.title };
-  // });
   const optionToSubCat = activeCategory?.title_column.map((item) => {
     return {
       name: item.title,
-      options: item.choices.map((i, index) => {
-        return { value: `${item.title}_${index + 1}`, label: i };
+      options: item.choices.map((i:any, index) => {
+        return { value: `${item.title}_${index + 1}`, label: i.title_of_choice };
       }),
     };
   });
+  
+  
   useMemo(() => {
 
     const _getOptionsSubcat: SubCat = { title: getOptionsSubcat?.value ?? "", description: getOptionsSubcat?.label ?? "" }
@@ -120,11 +122,13 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
     // console.log(data);
     setSendAllSubcatOffer(data);
   }, [getOptionsSubcat]);
+
   const sendServiceOffer = async (dataPostServices: Service) => {
     const data = await apiService.postServices(dataPostServices);
-    //  console.log(data);
-
+    const alertMessageSeller = language === "rus" ? "заявка принята" : language === "eng" ? "application accepted" : "китайский"
+    alert(alertMessageSeller)
   };
+// console.log(sendAllSubcatOffer);
 
   const handleSubmitOffer = useCallback(
     (event: FormEvent) => {
@@ -175,7 +179,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
           onSubmit={handleSubmitOffer}
           ref={ref}>
           <div className={styles.form__send_number_title}>
-            Заполните форму товара
+          {language === "rus" ? "Заполните форму товара" : language === "eng" ? "Fill out the product form" : 'chinese'}
           </div>
           <input
             value={dataUser.username}
@@ -190,10 +194,10 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
             type="text"
           />
           {/* <Dropdown
-            name={"Категория"}
+            name={"hueta"}
             isMulti={false}
-            options={optionsToCategories}
-            setSelectValue={setSendCategoryOffer}
+            options={[{value:"sev", label:"Sever"}]}
+            setSelectValue={setGetOptionsSubcat}
           /> */}
           {optionToSubCat?.map((firstItem, index) => {
             return (
@@ -213,13 +217,13 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
             onChange={(e): void => setSendTitleOffer(e.target.value)}
             className={styles.form__send_number_sellerNumber}
             type="text"
-            placeholder="что хотите продать"
+            placeholder={language === "rus" ? "что хотите продать" : language === "eng" ? "what do you want to sell" : 'chinese'}
           />
           <textarea
             className={styles.form__send_number_sellerNumber}
             value={sendDescriptionOffer}
             onChange={(e) => setSendDescriptionOffer(e.target.value)}
-            placeholder="описание"
+            placeholder={language === "rus" ? "описание" : language === "eng" ? "description" : 'chinese'}
             name=""
             id=""></textarea>
 
@@ -228,11 +232,11 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
             onChange={(e): void => setSendPriceOffer(e.target.value)}
             className={styles.form__send_number_sellerNumber}
             type="text"
-            placeholder="цена"
+            placeholder={language === "rus" ? "цена" : language === "eng" ? "price" : 'chinese'}
           />
 
           <button className={styles.form__send_number_button}>
-            Отправить форму
+            {language === "rus" ? "отправить форму" : language === "eng" ? "send form" : 'chinese'}
           </button>
         </form>
       );
@@ -243,7 +247,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
           onSubmit={handleSubmitIsSeller}
           ref={ref}>
           <div className={styles.form__send_number_title}>
-            Введите номер телефона
+            {language === "rus" ? "введите номер телефона" : language === "eng" ? "enter your phone number" : 'chinese'}
           </div>
           <input
             value={dataUser.username}
@@ -256,11 +260,11 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
             onChange={(e): void => setPhoneNumber(e.target.value)}
             className={styles.form__send_number_sellerNumber}
             type="text"
-            placeholder="номер телефона"
+            placeholder= {language === "rus" ? "номер телефона" : language === "eng" ? "phone number" : 'chinese'}
           />
 
           <button className={styles.form__send_number_button}>
-            Отправить форму
+          {language === "rus" ? "отправить форму" : language === "eng" ? "send form" : 'chinese'}
           </button>
         </form>
       );
@@ -290,7 +294,7 @@ export default function Card({ categories, game, activeCategory }: CardProps) {
         <div className={styles.title}>
           <span>{game.title}</span>
           <button onClick={openModal}>
-            Продать {activeCategory?.title || "валюту"}
+          {language === "rus" ? "продать" : language === "eng" ? "sell" : 'chinese'} {activeCategory?.title || "валюту"}
           </button>
         </div>
         <div className={styles.text}>

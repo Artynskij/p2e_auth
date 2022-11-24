@@ -9,6 +9,9 @@ import Service from './Service';
 import Search from '../Search/Search';
 import searchIcon from '../../assets/search.svg'
 import { ApiService } from '../../api/ApiService';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLanguage } from '../../redux/reducers/languageReducer';
+import { selectLanguage } from '../../redux/selectors';
 
 export type HeaderProps = {
   auth?: boolean;
@@ -23,12 +26,16 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
   const [isMobileSearch, setIsMobileSearch] = useState(false)
   const [typesOfGames, setTypeOfGames] = useState([])
   const { pathname } = useLocation()
+  
+  const language = useSelector(selectLanguage)
 
 
   const api = new ApiService()
   const getTypeGames = async () => {
-    const data = await api.getTypeOfGames()
-    setTypeOfGames(data)
+    const data = await api.getTypeOfGames(language)
+    const langData = data[0].type_of_games
+    
+    setTypeOfGames(langData)
   }
   const refHeader = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -242,7 +249,7 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
           <div className={styles.bottom_menu}>
             {typesOfGames.map((type: any) => {
               return (
-                <Link className={pathname === `/type_game/${type.title}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.title}` }} >
+                <Link className={pathname === `/type_game/${type.title}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.slug.toLowerCase()}` }} >
                   {type.title}
                 </Link>
               );
@@ -255,9 +262,9 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
         </div>
       </div>
       <div className={styles.bottom}>
-        {typesOfGames.map((type: { id: number, title: string }) => {
+        {typesOfGames.map((type: { id: number, title: string, slug:string }) => {
           return (
-            <Link className={pathname === `/type_game/${type.title}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.title}`}} key={type.id} >
+            <Link className={pathname === `/type_game/${type.title}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.slug.toLowerCase()}`}} key={type.id} >
               {type.title}
             </Link>
           );

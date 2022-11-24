@@ -5,6 +5,7 @@ import  {gamesReducer}  from './reducers/gamesReducer'
 import { searchReducer } from './reducers/searchReducer'
 import { userReducer } from './reducers/userReducer'
 import { gamesTestSlice } from "./reducers/testGamesReducer"
+import { languageReducer } from './reducers/languageReducer'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     user:userReducer,
     games:gamesReducer,
     gamesTest: gamesTestSlice.reducer,
+    language : languageReducer
   },
 })
 
