@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import CircleOfLoading from "../../../../components/circleOfLoading/circleOfLoading";
 import { useSelector } from "react-redux";
 import { selectLanguage } from "../../../../redux/selectors";
+import { Category } from "../../../../models/modelsGetData";
+import { mainApiUrlImg } from "../../../../utils/mainApiUrl";
 
 // export type SearchResultItemProps = {
 //     id: string;
@@ -15,7 +17,7 @@ import { selectLanguage } from "../../../../redux/selectors";
 // }
 
 type Tag = {
-slug: string, title: string, id: number
+  slug: string, title: string, id: number
 }
 export type SearchResultItemProps = {
   id: number;
@@ -33,57 +35,70 @@ export default function SearchResultItem({
   const api = new ApiService();
   const language = useSelector(selectLanguage)
 
+
   const getData = async () => {
-    const data = await api.getCategories(id, language);
+    const data = await api.getCategories(id);
     // setData(data);
-    const langCat = data[0].category
-    setTag(langCat);
+    const modeCat = data.map((item: any) => {
+      const langCat = language === "rus" ? item.rus : language === "eng" ? item.eng : item.chi
+      const modeCat: Category = {
+        description: langCat.description,
+        title: langCat.title,
+        game: item.game,
+        id: item.id,
+        slug: langCat.slug,
+        title_column: item.title_column
+      }
+      return modeCat
+
+    })
+    setTag(modeCat);
   };
-  
-  
+
+
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [language]);
 
   return (
     <div className={styles.item}>
       <img
-        src={`https://alexeygrinch.pythonanywhere.com${image_of_game}`}
+        src={`${mainApiUrlImg}${image_of_game}`}
         className={styles.itemImg}
         alt="avatar"
       />
       <div className={styles.itemLinks}>
         {
-          tag 
-          ? <Link
-        
-          to={{ pathname: `${GAMES_URL}/${title}/${tag[0].slug}` }}
-          className={styles.itemName}>
-          {title}
-        </Link>
-        : <div></div>
+          tag
+            ? <Link
+
+              to={{ pathname: `${GAMES_URL}/${title}/${tag[0].slug}` }}
+              className={styles.itemName}>
+              {title}
+            </Link>
+            : <div></div>
         }
-        
+
 
         {/* {
                         tags.en.split(',').map((tag, index, arr) => (
                             <Link to={{pathname: `${GAMES_URL}/${title}/${tag.replace(/\s+/g, '').toLowerCase()}`}} key={index}>{tags.ru.split(',')[index]}{index !== (arr.length - 1)  && ', '}</Link>
                         ))
                     } */}
-    <div  className={styles.itemTags}>
-         {tag
-         ? tag.map((tag) => {
-          return (
-            
-              <Link key={tag.id} to={{ pathname: `${GAMES_URL}/${title}/${tag.slug.replace(/\s+/g, '').toLowerCase()}` }}>
-                {tag.title}
-              </Link>
-            
-          );
-        })
-      : <CircleOfLoading/>
-      }
+        <div className={styles.itemTags}>
+          {tag
+            ? tag.map((tag) => {
+              return (
+
+                <Link key={tag.id} to={{ pathname: `${GAMES_URL}/${title}/${tag.slug.replace(/\s+/g, '').toLowerCase()}` }}>
+                  {tag.title}
+                </Link>
+
+              );
+            })
+            : <CircleOfLoading />
+          }
         </div>
       </div>
     </div>

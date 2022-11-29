@@ -12,6 +12,7 @@ import { ApiService } from "../../api/ApiService";
 import Slider from "react-slick";
 import { useLocation } from "react-router-dom";
 import CircleOfLoading from "../../components/circleOfLoading/circleOfLoading";
+import { mainApiUrlImg } from "../../utils/mainApiUrl";
 // import { selectGames } from '../../redux/selectors';
 type MainImg = {
   title: string, img: string, id: number
@@ -130,7 +131,7 @@ export default function MainPage() {
 
         {mainImg
           ? mainImg.map((item) => {
-            return <img key={item.id} className={styles.img} src={`https://alexeygrinch.pythonanywhere.com${item.img}`} alt={item.title} />
+            return <img key={item.id} className={styles.img} src={`${mainApiUrlImg}${item.img}`} alt={item.title} />
           })
           : <CircleOfLoading />}
 
@@ -142,7 +143,7 @@ export default function MainPage() {
           <SearchResultList letter="A" />
           <SearchResultList letter="B" />
           <SearchResultList letter="C" />
-          {/* <SearchResultList letter="D" />
+          <SearchResultList letter="D" />
           <SearchResultList letter="F" />
           <SearchResultList letter="G" />
           <SearchResultList letter="H" />
@@ -163,11 +164,11 @@ export default function MainPage() {
           <SearchResultList letter="W" />
           <SearchResultList letter="X" />
           <SearchResultList letter="Y" />
-          <SearchResultList letter="Z" /> */}
+          <SearchResultList letter="Z" />
 
         </div>
       </div>
-      <FAQ />
+      {/* <FAQ /> */}
       <Sponsor />
     </>
   );

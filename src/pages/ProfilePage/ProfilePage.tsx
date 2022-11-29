@@ -2,7 +2,7 @@ import { mockUser } from "../../utils/mockData";
 import styles from "./ProfilePage.module.scss";
 import { useSelector } from "react-redux";
 import { useRef, useEffect, useState, useCallback, FormEvent } from "react";
-import { selectDataUser } from "../../redux/selectors";
+import { selectDataUser, selectLanguage } from "../../redux/selectors";
 
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { ApiService } from "../../api/ApiService";
@@ -10,6 +10,7 @@ import { ApiService } from "../../api/ApiService";
 export default function ProfilePage() {
   const ref = useRef<HTMLFormElement>(null);
   const dataUser = useSelector(selectDataUser);
+  const language = useSelector(selectLanguage)
   
   // const [phoneNumber, setPhoneNumber] = useState("");
   // const [selectGame, setSelectGame] = useState(null);
@@ -57,7 +58,9 @@ export default function ProfilePage() {
     <div className={styles.container}>
       <div className={styles.container_left}>
         <div className={styles.body}>
-          <div className={styles.bodyTop}>Информация об аккаунте</div>
+          <div className={styles.bodyTop}>
+          {language==="rus" ? "Информация об аккаунте" : language==="eng" ? "Information about profile" : "Chinese"}
+            </div>
           <div className={styles.content}>
             <div className={styles.contentLeft}>
               <div>
@@ -65,14 +68,24 @@ export default function ProfilePage() {
                 <p>{mockUser.status}</p>
               </div>
               <div>
-                <span>Ваш статус:</span>
-                <span>Логин:</span>
+                <span>
+                  {language==="rus" ? "Ваш статус" : language==="eng" ? "Your status" : "Chinese"}
+                  :</span>
+                <span>
+                {language==="rus" ? "Логин" : language==="eng" ? "Nickname" : "Chinese"}
+                  :</span>
                 <span>E-mail:</span>
-                <span>Баланс:</span>
+                <span>
+                {language==="rus" ? "Баланс" : language==="eng" ? "Cash" : "Chinese"}
+                  :</span>
               </div>
             </div>
             <div className={styles.contentRight}>
-              <span>{dataUser.isSeller ? "Продавец" : "Пользователь"}</span>
+              <span>
+                {dataUser.isSeller 
+                ? language==="rus" ? "Продавец" : language==="eng" ? "Seller" : "Chinese"
+                : language==="rus" ? "Пользователь" : language==="eng" ? "User" : "Chinese"
+                }</span>
               <span>{dataUser.username}</span>
               <span>{dataUser.email}</span>
               <span>{mockUser.balance} p</span>

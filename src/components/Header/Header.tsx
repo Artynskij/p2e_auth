@@ -29,12 +29,10 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
   
   const language = useSelector(selectLanguage)
 
-
   const api = new ApiService()
   const getTypeGames = async () => {
     const data = await api.getTypeOfGames(language)
     const langData = data[0].type_of_games
-    
     setTypeOfGames(langData)
   }
   const refHeader = useRef<HTMLDivElement>(null)
@@ -63,7 +61,7 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('click', handleClickOutside)
     }
-  }, [])
+  }, [language])
 
   return (
     <header className={styles.container}>
@@ -125,13 +123,13 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
           style={show ? { right: 0 } : {}}>
           <div className={styles.groupLink}>
             <Link to={{ pathname: MAIN_URL }} onClick={() => setShow(false)}>
-              Главная
+            {language === "rus" ? "Главная" : language === "eng" ? "Main" : 'chinese'}
             </Link>
             <Service onClick={() => setShow(!show)} />
             <Link
               to={{ pathname: CONTACT_URL }}
               onClick={() => setShow(false)}>
-              Контакты
+              {language === "rus" ? "Контакты" : language === "eng" ? "Contacts" : 'chinese'}
             </Link>
           </div>
           {pathname === "/" || pathname.includes("game") ? (
@@ -187,17 +185,17 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
                 <Link
                   to={{ pathname: BUY_URL }}
                   onClick={() => setShow(false)}>
-                  Покупки
+                  {language === "rus" ? "Покупки" : language === "eng" ? "Purchases" : 'chinese'}
                 </Link>
                 <Link
                   to={{ pathname: FINANCE_URL }}
                   onClick={() => setShow(false)}>
-                  Финансы
+                  {language === "rus" ? "Финансы" : language === "eng" ? "Finance" : 'chinese'}
                 </Link>
                 <Link
                   to={{ pathname: COMUNITY_URL }}
                   onClick={() => setShow(false)}>
-                  Сообщения
+                  {language === "rus" ? "Сообщения" : language === "eng" ? "Messages" : 'chinese'}
                 </Link>
                 <ProfileCircle hide={setShow} setToken={setToken} />
               </>
@@ -207,12 +205,12 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
                 <Link
                   to={{ pathname: REGISTER_URL }}
                   onClick={() => setShow(false)}>
-                  Регистрация
+                    {language === "rus" ? "Регистрация" : language === "eng" ? "Registration" : 'chinese'}
                 </Link>
                 <Link
                   to={{ pathname: SINGIN_URL }}
                   onClick={() => setShow(false)}>
-                  Вход
+                  {language === "rus" ? "Вход" : language === "eng" ? "Enter" : 'chinese'}
                 </Link>
               </>
             )}
@@ -249,7 +247,7 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
           <div className={styles.bottom_menu}>
             {typesOfGames.map((type: any) => {
               return (
-                <Link className={pathname === `/type_game/${type.title}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.slug.toLowerCase()}` }} >
+                <Link className={pathname === `/type_game/${type.slug}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.slug.toLowerCase()}` }} >
                   {type.title}
                 </Link>
               );
@@ -264,7 +262,7 @@ export default function Header({ auth, show, setShow, setToken }: HeaderProps) {
       <div className={styles.bottom}>
         {typesOfGames.map((type: { id: number, title: string, slug:string }) => {
           return (
-            <Link className={pathname === `/type_game/${type.title}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.slug.toLowerCase()}`}} key={type.id} >
+            <Link className={pathname === `/type_game/${type.slug}` ? styles.bottomActive : ""} to={{ pathname: `/type_game/${type.slug.toLowerCase()}`}} key={type.id} >
               {type.title}
             </Link>
           );

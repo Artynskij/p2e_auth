@@ -64,7 +64,7 @@ export default function SignTab({ setToken }: SignTabProps) {
   };
 
   const handleSubmit = useCallback(
-    (event: FormEvent) => {
+    (event: FormEvent) => { 
       event.preventDefault();
       const mResp = checkSubmit("mail", email);
       const PLResp = checkSubmit("passwordL", pass);

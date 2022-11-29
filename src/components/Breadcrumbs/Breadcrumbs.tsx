@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
 import { BreadcrumbsItemType } from "../../redux/reducers/breadcrumbsReducer"
-import { selectBreadcrumbItems } from "../../redux/selectors"
+import { selectBreadcrumbItems, selectLanguage } from "../../redux/selectors"
 import styles from "./Breadcrumbs.module.scss"
 
 type ItemType = {
@@ -38,9 +38,9 @@ const Item: React.FC<ItemType> = ({ item, index, arrLength }) => {
 
 export const Breadcrumbs: React.FC = () => {
     let items = useSelector(selectBreadcrumbItems).map((i, index, arr) => <Item index={index + 1} item={i} arrLength={arr.length} key={index} />)
-
+const language = useSelector(selectLanguage)
     return <ul className={styles.breadcrumbs}>
-        <Item index={0} item={{ name: 'Главная', link: '/' }} />
+        <Item index={0} item={{ name: language === "rus" ? "Главная" : language === "eng" ? "Main " : 'chinese', link: '/' }} />
         {items}
     </ul>
 }

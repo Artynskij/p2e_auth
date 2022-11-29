@@ -23,7 +23,7 @@ export default function SearchResultList({ letter }: SearchResultListProps) {
     const [data, setData] = useState(null)
     const api = new ApiService()
     const location = useLocation()
-// console.log(location.pathname)
+    // console.log(location.pathname)
 
 
     // const getData = async () => {
@@ -40,19 +40,27 @@ export default function SearchResultList({ letter }: SearchResultListProps) {
     // let items = useSelector(selectSearchItems).filter(i => i.name.slice(0, 1) === letter)
 
 
-    const allGames: Game[] = useSelector(selectTestGames)
-    //@ts-ignore
-    
+    const allGames: any = useSelector(selectTestGames)
+
+
+
     const gamesFilter = allGames.filter((i: any) => i.title.slice(0, 1).toUpperCase() === letter)
-    const gamesFilterType = allGames.filter((i: any) => i.title.slice(0, 1).toUpperCase() === letter).filter(game => `typegame${game.type_of_games.title.toLowerCase()}` === location.pathname.replace(/[^a-zа-яё0-9]/gi, ''))
+    //const gamesFilterType = allGames.filter((i: any) =>  i.title.slice(0, 1).toUpperCase() === letter).filter((game:any) => game.type_of_games.filter((type:any) => `typegame${type.slug}` === location.pathname.replace(/[^a-zа-яё0-9]/gi, '')) )
+    const gamesFilterType = gamesFilter.filter((game: any) => {
+        const typeGame = game.type_of_games.filter((type: any) => `typegame${type.slug}` === location.pathname.replace(/[^a-zа-яё0-9]/gi, ''))
+        return typeGame[0]
+    })
     const language = useSelector(selectLanguage)
-    
+
+
+
+
+
+
+
     
 
-    // console.log(allGames.filter((i: any) => i.title.toLowerCase().slice(0, 1) === letter));
-    
-    
-    
+
 
 
 
@@ -62,14 +70,14 @@ export default function SearchResultList({ letter }: SearchResultListProps) {
                 {letter}
             </div>
             <div className={styles.result}>
-                {location.pathname.replace(/[^a-zа-яё0-9]/gi, '') 
-                    ? gamesFilterType.map((item: any, index: number) => (<SearchResultItem key={index} {...item} />)) 
+                {location.pathname.replace(/[^a-zа-яё0-9]/gi, '')
+                    ? gamesFilterType.map((item: any, index: number) => (<SearchResultItem key={index} {...item} />))
                     : gamesFilter.map((item: any, index: number) => (<SearchResultItem key={index} {...item} />))
                 }
 
-                {location.pathname.replace(/[^a-zа-яё0-9]/gi, '') 
-                    ? gamesFilterType.length === 0 &&<h4 className={styles.notFound}>{language==="rus" ? "Не найдено" : language==="eng" ? "Not found" : "China"}</h4> 
-                    : gamesFilter.length === 0 && <h4 className={styles.notFound}>{language==="rus" ? "Не найдено" : language==="eng" ? "Not found" : "China"}</h4>
+                {location.pathname.replace(/[^a-zа-яё0-9]/gi, '')
+                    ? gamesFilterType.length === 0 && <h4 className={styles.notFound}>{language === "rus" ? "Не найдено" : language === "eng" ? "Not found" : "China"}</h4>
+                    : gamesFilter.length === 0 && <h4 className={styles.notFound}>{language === "rus" ? "Не найдено" : language === "eng" ? "Not found" : "China"}</h4>
                 }
             </div>
         </div>

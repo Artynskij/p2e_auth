@@ -1,0 +1,1 @@
+export const mainApiUrlImg = "https://accaunt-sales.itec.by"

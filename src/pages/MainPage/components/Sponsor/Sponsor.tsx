@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { ApiService } from "../../../../api/ApiService";
+import { mainApiUrlImg } from "../../../../utils/mainApiUrl";
 
 const responsive = [
   {
@@ -41,23 +42,23 @@ export default function Sponsor() {
           arrows={false}
           infinite={false}
           responsive={responsive}>
-          {sponsorGames.map((spon) => {
+          {sponsorGames.map((spon, index) => {
             return (
-              <div key={spon.id} className={styles.item}>
+              <div key={index} className={styles.item}>
                 <div className={styles.inner}>
                   <a href={spon.official_site_url}>
                     <img
-                      src={`https://alexeygrinch.pythonanywhere.com${spon.icon}`}
+                      src={`${mainApiUrlImg}${spon.icon}`}
                       className={`${styles.img} ${styles.t}`}
                       alt="sponsor"
                     />
                     <img
-                      src={`https://alexeygrinch.pythonanywhere.com${spon.icon}`}
+                      src={`${mainApiUrlImg}${spon.icon}`}
                       className={`${styles.img} ${styles.g}`}
                       alt="sponsor"
                     />
                     <img
-                      src={`https://alexeygrinch.pythonanywhere.com${spon.icon}`}
+                      src={`${mainApiUrlImg}${spon.icon}`}
                       className={`${styles.img} ${styles.b}`}
                       alt="sponsor"
                     />

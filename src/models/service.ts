@@ -8,6 +8,8 @@ export class Service {
         category: number,
         seller: Seller,
         price: string,
-        additional: {title:string, description:string}[]
+        additional: {title:string, description:string}[],
+        count:number
+
     ) { }
 }
